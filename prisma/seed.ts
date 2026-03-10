@@ -11,6 +11,8 @@ const prisma = new PrismaClient({ adapter })
 async function main() {
   console.log('🌱 Seeding database...')
 
+  // Auth users (User, Session, Account) are created via the sign-up UI — no need to seed them here.
+
   // Clear existing todos
   await prisma.todo.deleteMany()
 
