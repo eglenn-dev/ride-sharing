@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>tasks</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="tasks_files/libs/clipboard/clipboard.min.js"></script>
+<script src="tasks_files/libs/quarto-html/quarto.js"></script>
+<script src="tasks_files/libs/quarto-html/popper.min.js"></script>
+<script src="tasks_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="tasks_files/libs/quarto-html/anchor.min.js"></script>
+<link href="tasks_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="tasks_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="tasks_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="tasks_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="tasks_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="tasks-shared-ride-booking-platform-3-week-mvp" class="level1">
+<h1>Tasks: Shared Ride Booking Platform (3-Week MVP)</h1>
+<p><strong>Feature</strong>: <code>001-shared-ride-booking</code><br>
+<strong>Input</strong>: <code>specs/001-shared-ride-booking/spec.md</code>, <code>specs/001-shared-ride-booking/plan.md</code><br>
+<strong>Team Capacity</strong>: 3 people x 8 hrs/week x 3 weeks = <strong>72 hours total</strong></p>
+<section id="mvp-scope-top-priority-only" class="level2">
+<h2 class="anchored" data-anchor-id="mvp-scope-top-priority-only">MVP Scope (Top Priority Only)</h2>
+<p>Ship a functional web app covering: - P1 auth flow (register/login/logout) - P1 ride CRUD core (create, list, edit, cancel) - P1 search + booking core (search rides, book seat, seat decrement) - Minimal user dashboards (<code>My Rides</code>, <code>My Bookings</code>) - Basic notifications (in-app only for booking/cancel events) - Core tests and deployment-ready setup</p>
+<p>Out of scope for this 3-week MVP: - Real payment gateway integration (use “booking confirmed” flow for now) - Partial-route optimization engine - Ratings/reviews - Identity verification and strict gender-preference enforcement - Real-time socket updates (use polling/simple refresh)</p>
+</section>
+<section id="milestones" class="level2">
+<h2 class="anchored" data-anchor-id="milestones">Milestones</h2>
+<ol type="1">
+<li><strong>Week 1 Goal</strong>: Auth + database + ride creation/listing working end-to-end</li>
+<li><strong>Week 2 Goal</strong>: Search and booking flow working with seat protection</li>
+<li><strong>Week 3 Goal</strong>: Dashboard polish, notifications, tests, and demo-ready deployment</li>
+</ol>
+</section>
+<section id="task-list" class="level2">
+<h2 class="anchored" data-anchor-id="task-list">Task List</h2>
+<section id="week-1---foundation-and-core-ride-posting-24h" class="level3">
+<h3 class="anchored" data-anchor-id="week-1---foundation-and-core-ride-posting-24h">Week 1 - Foundation and Core Ride Posting (24h)</h3>
+<ul class="task-list">
+<li><input type="checkbox"><code>T001</code> Setup env and local DB baseline (<code>.env</code>, Prisma connection, seed reset)<br>
+Owner: Dev A | Est: 2h | Depends: none | Priority: P0</li>
+<li><input type="checkbox"><code>T002</code> Replace placeholder Prisma schema with MVP entities (<code>User</code> via auth tables, <code>Ride</code>, <code>Booking</code>, <code>Notification</code>)<br>
+Owner: Dev A | Est: 4h | Depends: T001 | Priority: P0</li>
+<li><input type="checkbox"><code>T003</code> Create and run initial Prisma migration + update <code>seed.ts</code> with realistic dev data<br>
+Owner: Dev A | Est: 2h | Depends: T002 | Priority: P0</li>
+<li><input type="checkbox"><code>T004</code> Implement auth route UX pages (<code>/auth/login</code>, <code>/auth/register</code>) using Better Auth client<br>
+Owner: Dev B | Est: 4h | Depends: T001 | Priority: P0</li>
+<li><input type="checkbox"><code>T005</code> Add protected-route guard utility for authenticated pages<br>
+Owner: Dev B | Est: 2h | Depends: T004 | Priority: P0</li>
+<li><input type="checkbox"><code>T006</code> Build API endpoint for creating rides with Zod validation (<code>POST /api/rides</code>)<br>
+Owner: Dev A | Est: 3h | Depends: T003 | Priority: P0</li>
+<li><input type="checkbox"><code>T007</code> Build API endpoint for listing current user’s rides (<code>GET /api/rides?mine=true</code>)<br>
+Owner: Dev A | Est: 2h | Depends: T006 | Priority: P0</li>
+<li><input type="checkbox"><code>T008</code> Implement <code>/rides/create</code> page + form (origin, destination, departure, seats, price, shared/exclusive)<br>
+Owner: Dev C | Est: 3h | Depends: T005, T006 | Priority: P0</li>
+<li><input type="checkbox"><code>T009</code> Implement <code>/dashboard/my-rides</code> page with created rides list<br>
+Owner: Dev C | Est: 2h | Depends: T007 | Priority: P0</li>
+</ul>
+</section>
+<section id="week-2---search-and-booking-core-flow-24h" class="level3">
+<h3 class="anchored" data-anchor-id="week-2---search-and-booking-core-flow-24h">Week 2 - Search and Booking Core Flow (24h)</h3>
+<ul class="task-list">
+<li><input type="checkbox"><code>T010</code> Build search endpoint (<code>GET /api/rides</code>) with date/origin/destination filters and availability check<br>
+Owner: Dev A | Est: 4h | Depends: T007 | Priority: P0</li>
+<li><input type="checkbox"><code>T011</code> Build ride detail endpoint (<code>GET /api/rides/:id</code>) for booking screen data<br>
+Owner: Dev A | Est: 2h | Depends: T010 | Priority: P0</li>
+<li><input type="checkbox"><code>T012</code> Build booking create endpoint (<code>POST /api/bookings</code>) with transactional seat decrement and overbooking prevention<br>
+Owner: Dev A | Est: 5h | Depends: T011 | Priority: P0</li>
+<li><input type="checkbox"><code>T013</code> Build booking list endpoint for current user (<code>GET /api/bookings?mine=true</code>)<br>
+Owner: Dev A | Est: 2h | Depends: T012 | Priority: P1</li>
+<li><input type="checkbox"><code>T014</code> Implement <code>/rides/search</code> page (search form + results cards)<br>
+Owner: Dev B | Est: 4h | Depends: T010 | Priority: P0</li>
+<li><input type="checkbox"><code>T015</code> Implement <code>/rides/$rideId</code> detail page with “Book Seat” action<br>
+Owner: Dev B | Est: 3h | Depends: T011, T012 | Priority: P0</li>
+<li><input type="checkbox"><code>T016</code> Implement <code>/dashboard/my-bookings</code> page<br>
+Owner: Dev C | Est: 2h | Depends: T013 | Priority: P1</li>
+<li><input type="checkbox"><code>T017</code> Add ride edit/cancel API (<code>PUT/DELETE /api/rides/:id</code>) with ownership checks<br>
+Owner: Dev C | Est: 2h | Depends: T007 | Priority: P1</li>
+<li><input type="checkbox"><code>T018</code> Add edit/cancel controls in <code>/dashboard/my-rides</code><br>
+Owner: Dev C | Est: 2h | Depends: T017, T009 | Priority: P1</li>
+</ul>
+</section>
+<section id="week-3---functional-polish-notifications-and-demo-readiness-24h" class="level3">
+<h3 class="anchored" data-anchor-id="week-3---functional-polish-notifications-and-demo-readiness-24h">Week 3 - Functional Polish, Notifications, and Demo Readiness (24h)</h3>
+<ul class="task-list">
+<li><input type="checkbox"><code>T019</code> Add in-app notification model + API for booking/cancel events (<code>GET /api/notifications</code>)<br>
+Owner: Dev A | Est: 3h | Depends: T012, T017 | Priority: P1</li>
+<li><input type="checkbox"><code>T020</code> Add notification bell/dropdown in header with unread count and mark-as-read action<br>
+Owner: Dev B | Est: 3h | Depends: T019 | Priority: P1</li>
+<li><input type="checkbox"><code>T021</code> Implement booking cancellation endpoint and seat restoration logic<br>
+Owner: Dev A | Est: 3h | Depends: T012 | Priority: P1</li>
+<li><input type="checkbox"><code>T022</code> Create shared validation schemas and API error format consistency pass<br>
+Owner: Dev C | Est: 3h | Depends: T012, T017, T021 | Priority: P1</li>
+<li><input type="checkbox"><code>T023</code> Add core integration tests for auth+ride+booking lifecycle (happy path + overbooking case)<br>
+Owner: Dev A | Est: 4h | Depends: T021 | Priority: P0</li>
+<li><input type="checkbox"><code>T024</code> Add component tests for search and booking UX states (loading/error/success)<br>
+Owner: Dev B | Est: 3h | Depends: T014, T015 | Priority: P1</li>
+<li><input type="checkbox"><code>T025</code> Run full QA checklist, fix highest-impact defects, and harden edge cases<br>
+Owner: Dev C | Est: 3h | Depends: T023, T024 | Priority: P0</li>
+<li><input type="checkbox"><code>T026</code> Prepare deployment config + demo script + sample accounts and data reset command<br>
+Owner: Dev B | Est: 2h | Depends: T025 | Priority: P0</li>
+<li><input type="checkbox"><code>T027</code> Buffer for unknowns/bugs discovered during final integration<br>
+Owner: Team | Est: 3h | Depends: T025 | Priority: P0</li>
+</ul>
+</section>
+</section>
+<section id="critical-path-must-finish-for-functional-app" class="level2">
+<h2 class="anchored" data-anchor-id="critical-path-must-finish-for-functional-app">Critical Path (Must Finish for Functional App)</h2>
+<ol type="1">
+<li><code>T001 -&gt; T002 -&gt; T003 -&gt; T006 -&gt; T010 -&gt; T011 -&gt; T012 -&gt; T023 -&gt; T025 -&gt; T026</code></li>
+<li><code>T004 -&gt; T005 -&gt; T008</code> (auth + ride creation UX)</li>
+<li><code>T014 -&gt; T015</code> (search + booking UX)</li>
+</ol>
+</section>
+<section id="team-split-recommendation" class="level2">
+<h2 class="anchored" data-anchor-id="team-split-recommendation">Team Split Recommendation</h2>
+<ul>
+<li><strong>Dev A (Backend lead)</strong>: data model, APIs, transactions, integration tests</li>
+<li><strong>Dev B (Frontend lead)</strong>: auth/search/booking UI and demo prep</li>
+<li><strong>Dev C (Full-stack support)</strong>: dashboard pages, ride management edits, validation pass, QA support</li>
+</ul>
+</section>
+<section id="definition-of-done-mvp" class="level2">
+<h2 class="anchored" data-anchor-id="definition-of-done-mvp">Definition of Done (MVP)</h2>
+<ul>
+<li>User can register/login/logout and reach protected pages.</li>
+<li>Authenticated driver can create, edit, cancel, and list rides.</li>
+<li>Authenticated rider can search rides, view details, and book a seat.</li>
+<li>Seat availability updates correctly and overbooking is blocked.</li>
+<li>Users can view <code>My Rides</code> and <code>My Bookings</code>.</li>
+<li>In-app notifications appear for booking/cancel events.</li>
+<li>Integration and component tests for core flows pass.</li>
+<li>App can be run and demonstrated from a clean environment using documented commands.</li>
+</ul>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
