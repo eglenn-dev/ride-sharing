@@ -14,7 +14,6 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as DemoPrismaRouteImport } from './routes/demo/prisma'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
@@ -43,11 +42,6 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const DemoPrismaRoute = DemoPrismaRouteImport.update({
-  id: '/demo/prisma',
-  path: '/demo/prisma',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
   id: '/demo/better-auth',
   path: '/demo/better-auth',
@@ -66,7 +60,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/prisma': typeof DemoPrismaRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesByTo {
@@ -76,7 +69,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/prisma': typeof DemoPrismaRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRoutesById {
@@ -87,7 +79,6 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
-  '/demo/prisma': typeof DemoPrismaRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
 export interface FileRouteTypes {
@@ -99,7 +90,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/demo/better-auth'
-    | '/demo/prisma'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -109,7 +99,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/demo/better-auth'
-    | '/demo/prisma'
     | '/api/auth/$'
   id:
     | '__root__'
@@ -119,7 +108,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/signup'
     | '/demo/better-auth'
-    | '/demo/prisma'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
 }
@@ -130,7 +118,6 @@ export interface RootRouteChildren {
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
-  DemoPrismaRoute: typeof DemoPrismaRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
 
@@ -171,13 +158,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/demo/prisma': {
-      id: '/demo/prisma'
-      path: '/demo/prisma'
-      fullPath: '/demo/prisma'
-      preLoaderRoute: typeof DemoPrismaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/demo/better-auth': {
       id: '/demo/better-auth'
       path: '/demo/better-auth'
@@ -202,7 +182,6 @@ const rootRouteChildren: RootRouteChildren = {
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
-  DemoPrismaRoute: DemoPrismaRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }
 export const routeTree = rootRouteImport
