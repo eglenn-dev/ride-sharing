@@ -1,8 +1,8 @@
-import { getWebRequest } from '@tanstack/react-start/server'
+import { getRequest } from '@tanstack/react-start/server'
 import { auth } from './auth'
 
 export async function getServerSession() {
-  const request = getWebRequest()
+  const request = getRequest()
   const session = await auth.api.getSession({
     headers: request.headers,
   })
