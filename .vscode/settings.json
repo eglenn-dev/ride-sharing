@@ -7,5 +7,39 @@
   },
   "files.readonlyInclude": {
     "**/routeTree.gen.ts": true
-  }
+  },
+  "VsCodeTaskButtons.tasks": [
+    {
+      "label": "Dev",
+      "task": "Dev Server"
+    },
+    {
+      "label": "Test",
+      "task": "Run Tests"
+    },
+    {
+      "label": "Lint",
+      "task": "Lint"
+    },
+    {
+      "label": "Generate",
+      "task": "Prisma: Generate Client"
+    },
+    {
+      "label": "Migrate",
+      "task": "Prisma: Migrate Dev"
+    },
+    {
+      "label": "Studio",
+      "task": "Prisma: Studio"
+    },
+    {
+      "label": "Push",
+      "task": "Prisma: Push Schema"
+    },
+    {
+      "label": "Seed",
+      "task": "Prisma: Seed"
+    }
+  ]
 }
