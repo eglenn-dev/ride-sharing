@@ -34,3 +34,17 @@ export const createRide = createServerFn({ method: 'POST' })
 
     return ride
   })
+
+export const getUserRides = createServerFn({ method: 'GET' }).handler(
+  async () => {
+    const { user } = await requireServerSession()
+
+    return await prisma.ride.findMany({
+      where: { driverId: user.id },
+      orderBy: { departureTime: 'desc' },
+      include: {
+        _count: { select: { bookings: true } },
+      },
+    })
+  },
+)
