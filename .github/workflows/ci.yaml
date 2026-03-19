@@ -5,10 +5,10 @@ on:
     branches: [main]
 
 jobs:
-  ci:
+  lint-and-build:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URL: "postgresql://postgres:postgres@localhost:5432/ride-sharing"
+      DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/ride-sharing'
     steps:
       - uses: actions/checkout@v4
 
