@@ -40,6 +40,10 @@
     {
       "label": "Seed",
       "task": "Prisma: Seed"
+    },
+    {
+      "label": "Test",
+      "task": "Playwright: Test Auth (UI Mode)"
     }
   ]
 }
