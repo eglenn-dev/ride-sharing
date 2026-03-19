@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 import { defineConfig } from 'prisma/config'
+=======
+import dotenv from 'dotenv'
+import { defineConfig, env } from 'prisma/config'
+>>>>>>> origin/main
+
+dotenv.config({ path: '.env.local' })
 
 export default defineConfig({
   schema: './prisma/schema.prisma',

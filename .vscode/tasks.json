@@ -1,0 +1,57 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Prisma: Generate Client",
+      "type": "shell",
+      "command": "pnpm db:generate",
+      "group": "build",
+      "problemMatcher": []
+    },
+    {
+      "label": "Prisma: Push Schema",
+      "type": "shell",
+      "command": "pnpm db:push",
+      "problemMatcher": []
+    },
+    {
+      "label": "Prisma: Migrate Dev",
+      "type": "shell",
+      "command": "pnpm db:migrate",
+      "problemMatcher": []
+    },
+    {
+      "label": "Prisma: Studio",
+      "type": "shell",
+      "command": "pnpm db:studio",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Prisma: Seed",
+      "type": "shell",
+      "command": "pnpm db:seed",
+      "problemMatcher": []
+    },
+    {
+      "label": "Dev Server",
+      "type": "shell",
+      "command": "pnpm dev",
+      "isBackground": true,
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Tests",
+      "type": "shell",
+      "command": "pnpm test",
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Lint",
+      "type": "shell",
+      "command": "pnpm lint",
+      "problemMatcher": ["$eslint-stylish"]
+    }
+  ]
+}
