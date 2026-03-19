@@ -42,7 +42,7 @@
       "task": "Prisma: Seed"
     },
     {
-      "label": "Test",
+      "label": "E2E",
       "task": "Playwright: Test Auth (UI Mode)"
     }
   ]
