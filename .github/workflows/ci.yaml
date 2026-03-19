@@ -5,12 +5,16 @@ on:
     branches: [main]
 
 jobs:
-  ci:
+  lint-and-build:
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/ride-sharing'
     steps:
       - uses: actions/checkout@v4
 
       - uses: pnpm/action-setup@v4
+        with:
+          version: 9
 
       - uses: actions/setup-node@v4
         with:
