@@ -19,7 +19,13 @@ function HomePage() {
 
     const handleLogout = async () => {
         await authClient.signOut()
-        await router.navigate({ to: '/login' })
+        await router.navigate({
+            to: '/',
+            search: {
+                loggedOut: '1',
+                loggedOutName: session.user.name,
+            },
+        })
     }
 
     return (
