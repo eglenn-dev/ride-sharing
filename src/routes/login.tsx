@@ -1,14 +1,11 @@
-import { createFileRoute, Link, redirect, useRouter } from '@tanstack/react-router'
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 import { authClient } from '#/lib/auth-client'
-import { getRouteSession } from '#/lib/auth-guard'
+import { requireGuestRoute } from '#/lib/auth-guard'
 
 export const Route = createFileRoute('/login')({
   beforeLoad: async () => {
-    const session = await getRouteSession()
-    if (session) {
-      throw redirect({ to: '/home' })
-    }
+    await requireGuestRoute()
   },
   component: LoginPage,
 })
