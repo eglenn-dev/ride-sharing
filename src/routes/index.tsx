@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+=======
+import { createFileRoute, Link } from '@tanstack/react-router'
+>>>>>>> origin/main
 
 export const Route = createFileRoute('/')({
   validateSearch: (search: Record<string, unknown>) => ({
