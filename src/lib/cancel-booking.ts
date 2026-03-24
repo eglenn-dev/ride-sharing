@@ -3,7 +3,7 @@ import { requireServerSession } from '#/lib/auth-session'
 import { prisma } from '#/db'
 
 export const cancelBooking = createServerFn({ method: 'POST' })
-  .validator((data: string) => data)
+  .inputValidator((data: string) => data)
   .handler(async ({ data: bookingId }) => {
     const { user } = await requireServerSession()
 

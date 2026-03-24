@@ -22,7 +22,7 @@ export const getNotifications = createServerFn({ method: 'GET' }).handler(
 )
 
 export const markNotificationRead = createServerFn({ method: 'POST' })
-  .validator((data: string) => data)
+  .inputValidator((data: string) => data)
   .handler(async ({ data: notificationId }) => {
     const { user } = await requireServerSession()
 
