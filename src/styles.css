@@ -259,6 +259,90 @@ pre code {
   backdrop-filter: blur(4px);
 }
 
+.hero-commuter {
+  isolation: isolate;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  backdrop-filter: none;
+  background-image:
+    linear-gradient(
+      110deg,
+      rgba(6, 21, 28, 0.76) 0%,
+      rgba(14, 44, 45, 0.58) 42%,
+      rgba(21, 60, 56, 0.44) 64%,
+      rgba(25, 66, 58, 0.28) 100%
+    ),
+    url('/commuter.jpeg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero-full-bleed {
+  width: 100%;
+}
+
+.hero-commuter::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background:
+    radial-gradient(circle at 22% 20%, rgba(79, 184, 178, 0.16), transparent 46%),
+    radial-gradient(circle at 82% 80%, rgba(47, 106, 74, 0.2), transparent 42%);
+}
+
+.hero-commuter > * {
+  position: relative;
+  z-index: 1;
+}
+
+.hero-commuter .island-kicker,
+.hero-commuter .display-title,
+.hero-commuter p {
+  color: #f2fbf8;
+  text-shadow: 0 2px 14px rgba(3, 11, 16, 0.45);
+}
+
+.hero-cta {
+  border-radius: 9999px;
+  padding: 0.625rem 1.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+}
+
+.hero-cta:hover {
+  transform: translateY(-2px);
+}
+
+.hero-cta-primary {
+  border-color: rgba(221, 255, 250, 0.5);
+  background: rgba(7, 41, 50, 0.78);
+  color: #ecfffb;
+  box-shadow: 0 8px 22px rgba(5, 22, 30, 0.3);
+}
+
+.hero-cta-primary:hover {
+  background: rgba(7, 41, 50, 0.9);
+  color: #ffffff;
+}
+
+.hero-cta-secondary {
+  border-color: rgba(228, 255, 250, 0.55);
+  background: rgba(255, 255, 255, 0.2);
+  color: #f6fffd;
+  box-shadow: 0 8px 22px rgba(5, 22, 30, 0.2);
+}
+
+.hero-cta-secondary:hover {
+  background: rgba(255, 255, 255, 0.32);
+  color: #ffffff;
+}
+
 .feature-card {
   background: linear-gradient(165deg, color-mix(in oklab, var(--surface-strong) 93%, white 7%), var(--surface));
   box-shadow:

@@ -17,6 +17,7 @@ export const getUserBookings = createServerFn({ method: 'GET' }).handler(
             departureTime: true,
             price: true,
             status: true,
+            availableSeats: true,
             driver: {
               select: {
                 name: true,

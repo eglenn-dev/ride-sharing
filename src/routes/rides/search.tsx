@@ -1,4 +1,5 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router'
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
 import { searchRides } from '#/lib/search-rides'
 
@@ -52,25 +53,30 @@ function RidesSearchPage() {
   const router = useRouter()
   const search = Route.useSearch()
   const { results } = Route.useLoaderData()
+  const [origin, setOrigin] = useState(search.origin ?? '')
+  const [destination, setDestination] = useState(search.destination ?? '')
+  const [date, setDate] = useState(search.date ?? '')
+  const [type, setType] = useState<RideSearchType | ''>(search.type ?? '')
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    const form = new FormData(e.currentTarget)
 
     const next: RideSearchFilters = {
-      origin: String(form.get('origin') || '').trim() || undefined,
-      destination: String(form.get('destination') || '').trim() || undefined,
-      date: String(form.get('date') || '').trim() || undefined,
-      type: (() => {
-        const value = String(form.get('type') || '')
-        return value === 'SHARED' || value === 'EXCLUSIVE' ? value : undefined
-      })(),
+      origin: origin.trim() || undefined,
+      destination: destination.trim() || undefined,
+      date: date.trim() || undefined,
+      type: type || undefined,
     }
 
     await router.navigate({ to: '/rides/search', search: next })
   }
 
   const clearFilters = async () => {
+    setOrigin('')
+    setDestination('')
+    setDate('')
+    setType('')
+
     await router.navigate({
       to: '/rides/search',
       search: {
@@ -100,7 +106,8 @@ function RidesSearchPage() {
               type="text"
               id="origin"
               name="origin"
-              defaultValue={search.origin}
+              value={origin}
+              onChange={(e) => setOrigin(e.target.value)}
               placeholder="Salt Lake City"
               className="h-10 rounded-xl border border-[var(--line)] bg-white/60 px-3 text-sm text-[var(--sea-ink)] outline-none transition focus:border-[rgba(50,143,151,0.5)]"
             />
@@ -112,7 +119,8 @@ function RidesSearchPage() {
               type="text"
               id="destination"
               name="destination"
-              defaultValue={search.destination}
+              value={destination}
+              onChange={(e) => setDestination(e.target.value)}
               placeholder="Provo"
               className="h-10 rounded-xl border border-[var(--line)] bg-white/60 px-3 text-sm text-[var(--sea-ink)] outline-none transition focus:border-[rgba(50,143,151,0.5)]"
             />
@@ -124,7 +132,8 @@ function RidesSearchPage() {
               type="date"
               id="date"
               name="date"
-              defaultValue={search.date}
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
               className="h-10 rounded-xl border border-[var(--line)] bg-white/60 px-3 text-sm text-[var(--sea-ink)] outline-none transition focus:border-[rgba(50,143,151,0.5)]"
             />
           </label>
@@ -134,7 +143,14 @@ function RidesSearchPage() {
             <select
               id="type"
               name="type"
-              defaultValue={search.type}
+              value={type}
+              onChange={(e) =>
+                setType(
+                  e.target.value === 'SHARED' || e.target.value === 'EXCLUSIVE'
+                    ? e.target.value
+                    : '',
+                )
+              }
               className="h-10 rounded-xl border border-[var(--line)] bg-white/60 px-3 text-sm text-[var(--sea-ink)] outline-none transition focus:border-[rgba(50,143,151,0.5)]"
             >
               <option value="">Any ride type</option>
@@ -175,6 +191,12 @@ function RidesSearchPage() {
               key={ride.id}
               className="island-shell feature-card rise-in rounded-2xl p-5"
             >
+              <img
+                src="/ride-car.svg"
+                alt="Car illustration"
+                className="mb-4 h-28 w-full rounded-xl border border-[var(--line)] bg-white/70 object-cover"
+              />
+
               <div className="mb-3 flex items-start justify-between gap-3">
                 <h2 className="m-0 text-base font-semibold text-[var(--sea-ink)]">
                   {ride.origin} to {ride.destination}
@@ -212,6 +234,14 @@ function RidesSearchPage() {
                   {ride.description}
                 </p>
               )}
+
+              <Link
+                to="/rides/$rideId/book"
+                params={{ rideId: ride.id }}
+                className="mt-4 block w-full rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-4 py-2 text-center text-sm font-semibold text-[var(--lagoon-deep)] no-underline transition hover:bg-[rgba(79,184,178,0.24)]"
+              >
+                Book Ride
+              </Link>
             </article>
           ))
         )}
