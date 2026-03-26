@@ -11,7 +11,7 @@ export const getRouteSession = createServerFn({ method: 'GET' }).handler(
 export async function requireAuthenticatedRoute() {
   const session = await getRouteSession()
   if (!session) {
-    throw redirect({ to: '/login' })
+    throw redirect({ to: '/auth/login' })
   }
   return session
 }
