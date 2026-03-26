@@ -3,7 +3,7 @@ import { requireServerSession } from '#/lib/auth-session'
 import { prisma } from '#/db'
 
 export const searchRides = createServerFn({ method: 'GET' })
-  .validator(
+  .inputValidator(
     (data: {
       origin?: string
       destination?: string

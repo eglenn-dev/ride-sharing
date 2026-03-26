@@ -26,7 +26,13 @@ export default function BetterAuthHeader() {
         <button
           onClick={async () => {
             await authClient.signOut()
-            await router.navigate({ to: '/' })
+            await router.navigate({
+              to: '/',
+              search: {
+                loggedOut: '1',
+                loggedOutName: session.user.name,
+              },
+            })
           }}
           className="h-9 px-4 text-sm font-medium rounded-full border border-[var(--line)] bg-transparent text-[var(--sea-ink)] hover:bg-[var(--link-bg-hover)] transition-colors"
         >
@@ -39,13 +45,13 @@ export default function BetterAuthHeader() {
   return (
     <div className="flex items-center gap-2">
       <Link
-        to="/login"
+        to="/auth/login"
         className="h-9 px-4 text-sm font-medium rounded-full border border-[var(--line)] bg-transparent text-[var(--sea-ink)] hover:bg-[var(--link-bg-hover)] transition-colors inline-flex items-center no-underline"
       >
         Log in
       </Link>
       <Link
-        to="/signup"
+        to="/auth/signup"
         className="h-9 px-4 text-sm font-medium rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] text-[var(--lagoon-deep)] hover:bg-[rgba(79,184,178,0.24)] transition-colors inline-flex items-center no-underline"
       >
         Sign up

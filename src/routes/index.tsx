@@ -1,10 +1,47 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 
-export const Route = createFileRoute('/')({ component: App })
+export const Route = createFileRoute('/')({
+  validateSearch: (search: Record<string, unknown>) => ({
+    loggedOut: search.loggedOut === '1' ? '1' : undefined,
+    loggedOutName:
+      typeof search.loggedOutName === 'string' &&
+      search.loggedOutName.trim().length > 0
+        ? search.loggedOutName.trim().slice(0, 50)
+        : undefined,
+  }),
+  component: App,
+})
 
 function App() {
+  const router = useRouter()
+  const { loggedOut, loggedOutName } = Route.useSearch()
+
   return (
     <main className="page-wrap px-4 pb-8 pt-14">
+      {loggedOut === '1' && (
+        <section className="island-shell mb-6 rounded-xl border border-[rgba(50,143,151,0.25)] bg-[rgba(79,184,178,0.12)] p-4">
+          <div className="flex items-start justify-between gap-3">
+            <p className="m-0 text-sm text-[var(--sea-ink)]">
+              {loggedOutName
+                ? `Goodbye and ride safe, ${loggedOutName}. You have been logged out.`
+                : 'You have been logged out. Goodbye and ride safe.'}
+            </p>
+            <button
+              type="button"
+              onClick={() => {
+                void router.navigate({
+                  to: '/',
+                  search: { loggedOut: undefined, loggedOutName: undefined },
+                })
+              }}
+              className="rounded-full border border-[var(--line)] px-3 py-1 text-xs font-semibold text-[var(--sea-ink)] transition hover:bg-[var(--link-bg-hover)]"
+            >
+              Dismiss
+            </button>
+          </div>
+        </section>
+      )}
+
       <section className="island-shell rise-in relative overflow-hidden rounded-[2rem] px-6 py-10 sm:px-10 sm:py-14">
         <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
         <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />

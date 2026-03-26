@@ -3,7 +3,7 @@ import { requireServerSession } from '#/lib/auth-session'
 import { prisma } from '#/db'
 
 export const getRideById = createServerFn({ method: 'GET' })
-  .validator((data: string) => data)
+  .inputValidator((data: string) => data)
   .handler(async ({ data: rideId }) => {
     await requireServerSession()
 

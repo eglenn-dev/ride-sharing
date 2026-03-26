@@ -15,6 +15,8 @@ import { Route as HomeRouteImport } from './routes/home'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
+import { Route as AuthSignupRouteImport } from './routes/auth/signup'
+import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const SignupRoute = SignupRouteImport.update({
@@ -47,6 +49,16 @@ const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
   path: '/demo/better-auth',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthSignupRoute = AuthSignupRouteImport.update({
+  id: '/auth/signup',
+  path: '/auth/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthLoginRoute = AuthLoginRouteImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -59,6 +71,8 @@ export interface FileRoutesByFullPath {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -68,6 +82,8 @@ export interface FileRoutesByTo {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -78,6 +94,8 @@ export interface FileRoutesById {
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
   '/signup': typeof SignupRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/signup': typeof AuthSignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
 }
@@ -89,6 +107,8 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/signup'
+    | '/auth/login'
+    | '/auth/signup'
     | '/demo/better-auth'
     | '/api/auth/$'
   fileRoutesByTo: FileRoutesByTo
@@ -98,6 +118,8 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/signup'
+    | '/auth/login'
+    | '/auth/signup'
     | '/demo/better-auth'
     | '/api/auth/$'
   id:
@@ -107,6 +129,8 @@ export interface FileRouteTypes {
     | '/home'
     | '/login'
     | '/signup'
+    | '/auth/login'
+    | '/auth/signup'
     | '/demo/better-auth'
     | '/api/auth/$'
   fileRoutesById: FileRoutesById
@@ -117,6 +141,8 @@ export interface RootRouteChildren {
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
   SignupRoute: typeof SignupRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthSignupRoute: typeof AuthSignupRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
 }
@@ -165,6 +191,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DemoBetterAuthRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/auth/signup': {
+      id: '/auth/signup'
+      path: '/auth/signup'
+      fullPath: '/auth/signup'
+      preLoaderRoute: typeof AuthSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -181,6 +221,8 @@ const rootRouteChildren: RootRouteChildren = {
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
   SignupRoute: SignupRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthSignupRoute: AuthSignupRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
 }

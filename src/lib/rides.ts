@@ -14,7 +14,7 @@ const createRideInput = z.object({
 })
 
 export const createRide = createServerFn({ method: 'POST' })
-  .validator(createRideInput)
+  .inputValidator(createRideInput)
   .handler(async ({ data }) => {
     const session = await requireServerSession()
 
