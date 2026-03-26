@@ -67,26 +67,27 @@ function App() {
                             >
                                 Find Rides
                             </Link>
-                            
+
                             <Link
                                 to="/home"
+                                search={{ bookingCreated: undefined, bookedRide: undefined }}
                                 className="hero-cta hero-cta-secondary"
                             >
                                 View Dashboard
                             </Link>
-                            
+
                             </>
                         )}
                         {!session?.user && (
                             <>
                                 <Link
-                                    to="/signup"
+                                    to="/auth/signup"
                                     className="hero-cta hero-cta-primary"
                                 >
                                     Get Started
                                 </Link>
                                 <Link
-                                    to="/login"
+                                    to="/auth/login"
                                     className="hero-cta hero-cta-secondary"
                                 >
                                     Log In
