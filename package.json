@@ -8,7 +8,7 @@
   "scripts": {
     "predev": "pnpm run db:generate",
     "dev": "vite dev --port 3000",
-    "build": "vite build",
+    "build": "npx prisma migrate deploy && vite build",
     "preview": "vite preview",
     "test": "vitest run",
     "lint": "eslint",
@@ -46,6 +46,7 @@
     "zod": "^4.3.6"
   },
   "devDependencies": {
+    "@playwright/test": "^1.58.2",
     "@tailwindcss/typography": "^0.5.16",
     "@tanstack/devtools-vite": "^0.3.11",
     "@tanstack/eslint-config": "^0.3.0",

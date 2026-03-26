@@ -4,7 +4,8 @@ export const Route = createFileRoute('/')({
   validateSearch: (search: Record<string, unknown>) => ({
     loggedOut: search.loggedOut === '1' ? '1' : undefined,
     loggedOutName:
-      typeof search.loggedOutName === 'string' && search.loggedOutName.trim().length > 0
+      typeof search.loggedOutName === 'string' &&
+      search.loggedOutName.trim().length > 0
         ? search.loggedOutName.trim().slice(0, 50)
         : undefined,
   }),

@@ -52,6 +52,22 @@
       "type": "shell",
       "command": "pnpm lint",
       "problemMatcher": ["$eslint-stylish"]
+    },
+    {
+      "label": "Playwright: Test UI Mode",
+      "type": "shell",
+      "command": "pnpm exec playwright test --ui",
+      "isBackground": true,
+      "group": "test",
+      "problemMatcher": []
+    },
+    {
+      "label": "Playwright: Test Auth (UI Mode)",
+      "type": "shell",
+      "command": "pnpm exec playwright test e2e/auth.spec.ts --ui",
+      "isBackground": true,
+      "group": "test",
+      "problemMatcher": []
     }
   ]
 }
