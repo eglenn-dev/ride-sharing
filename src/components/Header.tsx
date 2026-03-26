@@ -33,7 +33,7 @@ export default function Header() {
           </Link>
           {session?.user && (
             <Link
-              to="/home"
+              to="/home" search={{ bookingCreated: undefined, bookedRide: undefined }}
               className="nav-link"
               activeProps={{ className: 'nav-link is-active' }}
             >
@@ -111,7 +111,7 @@ export default function Header() {
               </Link>
               {session?.user && (
                 <Link
-                  to="/home"
+                  to="/home" search={{ bookingCreated: undefined, bookedRide: undefined }}
                   className="rounded-lg px-3 py-2 text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
