@@ -85,7 +85,7 @@ async function main() {
     },
   })
 
-  await prisma.ride.create({
+  const ride2 = await prisma.ride.create({
     data: {
       driverId: alice.id,
       origin: 'UT Campus',
@@ -112,7 +112,7 @@ async function main() {
     },
   })
 
-  await prisma.ride.create({
+  const ride4 = await prisma.ride.create({
     data: {
       driverId: alice.id,
       origin: 'Austin Airport',
@@ -142,7 +142,7 @@ async function main() {
   console.log(`✅ Created 5 sample rides`)
 
   // Create sample bookings (and availableSeats are already set accordingly above)
-  await prisma.booking.create({
+  const booking1 = await prisma.booking.create({
     data: {
       riderId: bob.id,
       rideId: ride1.id,
@@ -150,7 +150,7 @@ async function main() {
     },
   })
 
-  await prisma.booking.create({
+  const booking2 = await prisma.booking.create({
     data: {
       riderId: bob.id,
       rideId: ride3.id,
@@ -158,7 +158,7 @@ async function main() {
     },
   })
 
-  await prisma.booking.create({
+  const booking3 = await prisma.booking.create({
     data: {
       riderId: carol.id,
       rideId: ride5.id,
