@@ -1,4 +1,5 @@
 import { PrismaClient } from '../src/generated/prisma/client.js'
+import { auth } from '../src/lib/auth'
 
 import { PrismaPg } from '@prisma/adapter-pg'
 
@@ -8,6 +9,61 @@ const adapter = new PrismaPg({
 
 const prisma = new PrismaClient({ adapter })
 
+const SEEDED_USER_PASSWORD = 'password123'
+
+type SeedUser = {
+  name: string
+  email: string
+}
+
+async function ensureSeedUser({ name, email }: SeedUser) {
+  const existingUser = await prisma.user.findFirst({
+    where: { email },
+    include: {
+      accounts: {
+        select: {
+          providerId: true,
+        },
+      },
+    },
+  })
+
+  if (existingUser) {
+    const hasCredentialAccount = existingUser.accounts.some(
+      (account) => account.providerId === 'credential',
+    )
+
+    if (hasCredentialAccount) {
+      return existingUser
+    }
+
+    await prisma.user.delete({
+      where: {
+        id: existingUser.id,
+      },
+    })
+  }
+
+  await auth.api.signUpEmail({
+    body: {
+      name,
+      email,
+      password: SEEDED_USER_PASSWORD,
+    },
+    asResponse: false,
+  })
+
+  const createdUser = await prisma.user.findFirst({
+    where: { email },
+  })
+
+  if (!createdUser) {
+    throw new Error(`Failed to create seeded auth user for ${email}`)
+  }
+
+  return createdUser
+}
+
 async function main() {
   console.log('🌱 Seeding database...')
 
@@ -16,44 +72,20 @@ async function main() {
   await prisma.booking.deleteMany()
   await prisma.ride.deleteMany()
 
-  // Upsert test users for dev convenience
-  const alice = await prisma.user.upsert({
-    where: { id: 'seed-alice' },
-    update: {},
-    create: {
-      id: 'seed-alice',
-      name: 'Alice Driver',
-      email: 'alice@example.com',
-      emailVerified: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
+  // Create test users with Better Auth credentials so they can sign in.
+  const alice = await ensureSeedUser({
+    name: 'Alice Driver',
+    email: 'alice@example.com',
   })
 
-  const bob = await prisma.user.upsert({
-    where: { id: 'seed-bob' },
-    update: {},
-    create: {
-      id: 'seed-bob',
-      name: 'Bob Rider',
-      email: 'bob@example.com',
-      emailVerified: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
+  const bob = await ensureSeedUser({
+    name: 'Bob Rider',
+    email: 'bob@example.com',
   })
 
-  const carol = await prisma.user.upsert({
-    where: { id: 'seed-carol' },
-    update: {},
-    create: {
-      id: 'seed-carol',
-      name: 'Carol Commuter',
-      email: 'carol@example.com',
-      emailVerified: true,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-    },
+  const carol = await ensureSeedUser({
+    name: 'Carol Commuter',
+    email: 'carol@example.com',
   })
 
   console.log(`✅ Upserted 3 test users`)
@@ -85,7 +117,7 @@ async function main() {
     },
   })
 
-  const ride2 = await prisma.ride.create({
+  await prisma.ride.create({
     data: {
       driverId: alice.id,
       origin: 'UT Campus',
@@ -112,7 +144,7 @@ async function main() {
     },
   })
 
-  const ride4 = await prisma.ride.create({
+  await prisma.ride.create({
     data: {
       driverId: alice.id,
       origin: 'Austin Airport',
@@ -142,7 +174,7 @@ async function main() {
   console.log(`✅ Created 5 sample rides`)
 
   // Create sample bookings (and availableSeats are already set accordingly above)
-  const booking1 = await prisma.booking.create({
+  await prisma.booking.create({
     data: {
       riderId: bob.id,
       rideId: ride1.id,
@@ -150,7 +182,7 @@ async function main() {
     },
   })
 
-  const booking2 = await prisma.booking.create({
+  await prisma.booking.create({
     data: {
       riderId: bob.id,
       rideId: ride3.id,
@@ -158,7 +190,7 @@ async function main() {
     },
   })
 
-  const booking3 = await prisma.booking.create({
+  await prisma.booking.create({
     data: {
       riderId: carol.id,
       rideId: ride5.id,
@@ -189,6 +221,11 @@ async function main() {
   })
 
   console.log(`✅ Created 2 sample notifications`)
+
+  console.log('✅ Seed login credentials:')
+  console.log('   alice@example.com / password123')
+  console.log('   bob@example.com / password123')
+  console.log('   carol@example.com / password123')
 }
 
 main()
