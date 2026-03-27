@@ -19,10 +19,7 @@ import { Route as RidesOfferRouteImport } from './routes/rides/offer'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
-<<<<<<< HEAD
 import { Route as RidesRideIdBookRouteImport } from './routes/rides/$rideId.book'
-=======
->>>>>>> origin/main
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const SignupRoute = SignupRouteImport.update({
@@ -75,14 +72,11 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
-<<<<<<< HEAD
 const RidesRideIdBookRoute = RidesRideIdBookRouteImport.update({
   id: '/rides/$rideId/book',
   path: '/rides/$rideId/book',
   getParentRoute: () => rootRouteImport,
 } as any)
-=======
->>>>>>> origin/main
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   id: '/api/auth/$',
   path: '/api/auth/$',
@@ -264,7 +258,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
-<<<<<<< HEAD
     '/rides/$rideId/book': {
       id: '/rides/$rideId/book'
       path: '/rides/$rideId/book'
@@ -272,8 +265,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RidesRideIdBookRouteImport
       parentRoute: typeof rootRouteImport
     }
-=======
->>>>>>> origin/main
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
