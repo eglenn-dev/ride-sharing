@@ -33,7 +33,7 @@ function AuthLoginPage() {
       return
     }
 
-    await router.navigate({ to: '/home' })
+    await router.navigate({ to: '/' })
   }
 
   return (

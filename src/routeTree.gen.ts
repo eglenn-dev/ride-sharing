@@ -14,9 +14,12 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RidesSearchRouteImport } from './routes/rides/search'
+import { Route as RidesOfferRouteImport } from './routes/rides/offer'
 import { Route as DemoBetterAuthRouteImport } from './routes/demo/better-auth'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as RidesRideIdBookRouteImport } from './routes/rides/$rideId.book'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
 
 const SignupRoute = SignupRouteImport.update({
@@ -44,6 +47,16 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RidesSearchRoute = RidesSearchRouteImport.update({
+  id: '/rides/search',
+  path: '/rides/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RidesOfferRoute = RidesOfferRouteImport.update({
+  id: '/rides/offer',
+  path: '/rides/offer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DemoBetterAuthRoute = DemoBetterAuthRouteImport.update({
   id: '/demo/better-auth',
   path: '/demo/better-auth',
@@ -57,6 +70,11 @@ const AuthSignupRoute = AuthSignupRouteImport.update({
 const AuthLoginRoute = AuthLoginRouteImport.update({
   id: '/auth/login',
   path: '/auth/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RidesRideIdBookRoute = RidesRideIdBookRouteImport.update({
+  id: '/rides/$rideId/book',
+  path: '/rides/$rideId/book',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -74,7 +92,10 @@ export interface FileRoutesByFullPath {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
+  '/rides/offer': typeof RidesOfferRoute
+  '/rides/search': typeof RidesSearchRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/rides/$rideId/book': typeof RidesRideIdBookRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -85,7 +106,10 @@ export interface FileRoutesByTo {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
+  '/rides/offer': typeof RidesOfferRoute
+  '/rides/search': typeof RidesSearchRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/rides/$rideId/book': typeof RidesRideIdBookRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -97,7 +121,10 @@ export interface FileRoutesById {
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
   '/demo/better-auth': typeof DemoBetterAuthRoute
+  '/rides/offer': typeof RidesOfferRoute
+  '/rides/search': typeof RidesSearchRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/rides/$rideId/book': typeof RidesRideIdBookRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,7 +137,10 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/demo/better-auth'
+    | '/rides/offer'
+    | '/rides/search'
     | '/api/auth/$'
+    | '/rides/$rideId/book'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -121,7 +151,10 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/demo/better-auth'
+    | '/rides/offer'
+    | '/rides/search'
     | '/api/auth/$'
+    | '/rides/$rideId/book'
   id:
     | '__root__'
     | '/'
@@ -132,7 +165,10 @@ export interface FileRouteTypes {
     | '/auth/login'
     | '/auth/signup'
     | '/demo/better-auth'
+    | '/rides/offer'
+    | '/rides/search'
     | '/api/auth/$'
+    | '/rides/$rideId/book'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -144,7 +180,10 @@ export interface RootRouteChildren {
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
+  RidesOfferRoute: typeof RidesOfferRoute
+  RidesSearchRoute: typeof RidesSearchRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  RidesRideIdBookRoute: typeof RidesRideIdBookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -184,6 +223,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rides/search': {
+      id: '/rides/search'
+      path: '/rides/search'
+      fullPath: '/rides/search'
+      preLoaderRoute: typeof RidesSearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rides/offer': {
+      id: '/rides/offer'
+      path: '/rides/offer'
+      fullPath: '/rides/offer'
+      preLoaderRoute: typeof RidesOfferRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/demo/better-auth': {
       id: '/demo/better-auth'
       path: '/demo/better-auth'
@@ -205,6 +258,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rides/$rideId/book': {
+      id: '/rides/$rideId/book'
+      path: '/rides/$rideId/book'
+      fullPath: '/rides/$rideId/book'
+      preLoaderRoute: typeof RidesRideIdBookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
@@ -224,7 +284,10 @@ const rootRouteChildren: RootRouteChildren = {
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
+  RidesOfferRoute: RidesOfferRoute,
+  RidesSearchRoute: RidesSearchRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  RidesRideIdBookRoute: RidesRideIdBookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
