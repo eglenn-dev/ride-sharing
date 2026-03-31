@@ -367,14 +367,12 @@ function HomePage() {
                         >
                             Offer a Ride
                         </button>
-                        {session?.user && (
-                            <button
-                                className="w-full rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-4 py-2 text-sm font-semibold text-[var(--sea-ink)] transition hover:border-[rgba(23,58,64,0.35)]"
-                                onClick={handleLogout}
-                            >
-                                Logout
-                            </button>
-                        )}
+                        <button
+                            className="w-full rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-4 py-2 text-sm font-semibold text-[var(--sea-ink)] transition hover:border-[rgba(23,58,64,0.35)]"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
                     </div>
                 </article>
 
