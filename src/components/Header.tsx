@@ -2,6 +2,7 @@ import { Link } from '@tanstack/react-router'
 import { useState } from 'react'
 import { authClient } from '#/lib/auth-client'
 import BetterAuthHeader from '../integrations/better-auth/header-user.tsx'
+import NotificationBell from './NotificationBell'
 import ThemeToggle from './ThemeToggle'
 
 export default function Header() {
@@ -58,6 +59,7 @@ export default function Header() {
         </div>
 
         <div className="hidden items-center gap-2 md:flex">
+          <NotificationBell userId={session?.user.id} />
           <BetterAuthHeader />
           <ThemeToggle />
         </div>
@@ -115,6 +117,9 @@ export default function Header() {
             </div>
 
             <div className="mt-2 border-t border-[var(--line)] pt-2">
+              <div className="mb-2 flex justify-end px-1">
+                <NotificationBell userId={session?.user.id} />
+              </div>
               <BetterAuthHeader />
             </div>
           </div>

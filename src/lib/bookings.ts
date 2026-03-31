@@ -76,6 +76,10 @@ export const createBooking = createServerFn({ method: 'POST' })
         )
       }
 
+      if (ride.availableSeats < seats) {
+        throw new Error('Not enough seats available')
+      }
+
       const updatedRide = await tx.ride.updateMany({
         where: {
           id: ride.id,

@@ -19,7 +19,7 @@ function App() {
 
     return (
         <main className="pb-8">
-            <section className="hero-commuter w-full rise-in relative overflow-hidden">
+            <section className="hero-commuter hero-full-bleed rise-in relative overflow-hidden">
                 <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
                 <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />
                 {loggedOut === '1' && (
@@ -63,7 +63,7 @@ function App() {
                             <>
                             <Link
                                 to="/rides/search"
-                                className="rounded-full px-5 py-2.5 text-sm font-bold no-underline border border-[rgba(221,255,250,0.5)] bg-[rgba(7,41,50,0.78)] text-[#ecfffb] shadow-[0_8px_22px_rgba(5,22,30,0.3)] transition-all duration-[180ms] ease-out hover:-translate-y-0.5 hover:bg-[rgba(7,41,50,0.9)] hover:text-white"
+                                className="hero-cta hero-cta-primary"
                             >
                                 Find Rides
                             </Link>
@@ -71,7 +71,7 @@ function App() {
                             <Link
                                 to="/home"
                                 search={{ bookingCreated: undefined, bookedRide: undefined }}
-                                className="rounded-full px-5 py-2.5 text-sm font-bold no-underline border border-[rgba(228,255,250,0.55)] bg-white/20 text-[#f6fffd] shadow-[0_8px_22px_rgba(5,22,30,0.2)] transition-all duration-[180ms] ease-out hover:-translate-y-0.5 hover:bg-white/[0.32] hover:text-white"
+                                className="hero-cta hero-cta-secondary"
                             >
                                 View Dashboard
                             </Link>
@@ -82,13 +82,13 @@ function App() {
                             <>
                                 <Link
                                     to="/auth/signup"
-                                    className="rounded-full px-5 py-2.5 text-sm font-bold no-underline border border-[rgba(221,255,250,0.5)] bg-[rgba(7,41,50,0.78)] text-[#ecfffb] shadow-[0_8px_22px_rgba(5,22,30,0.3)] transition-all duration-[180ms] ease-out hover:-translate-y-0.5 hover:bg-[rgba(7,41,50,0.9)] hover:text-white"
+                                    className="hero-cta hero-cta-primary"
                                 >
                                     Get Started
                                 </Link>
                                 <Link
                                     to="/auth/login"
-                                    className="rounded-full px-5 py-2.5 text-sm font-bold no-underline border border-[rgba(228,255,250,0.55)] bg-white/20 text-[#f6fffd] shadow-[0_8px_22px_rgba(5,22,30,0.2)] transition-all duration-[180ms] ease-out hover:-translate-y-0.5 hover:bg-white/[0.32] hover:text-white"
+                                    className="hero-cta hero-cta-secondary"
                                 >
                                     Log In
                                 </Link>
