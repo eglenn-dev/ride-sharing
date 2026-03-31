@@ -279,10 +279,6 @@ pre code {
   background-repeat: no-repeat;
 }
 
-.hero-full-bleed {
-  width: 100%;
-}
-
 .hero-commuter::after {
   content: '';
   position: absolute;
@@ -303,44 +299,6 @@ pre code {
 .hero-commuter p {
   color: #f2fbf8;
   text-shadow: 0 2px 14px rgba(3, 11, 16, 0.45);
-}
-
-.hero-cta {
-  border-radius: 9999px;
-  padding: 0.625rem 1.25rem;
-  font-size: 0.875rem;
-  font-weight: 700;
-  text-decoration: none;
-  border: 1px solid transparent;
-  transition: transform 180ms ease, background-color 180ms ease, border-color 180ms ease, color 180ms ease;
-}
-
-.hero-cta:hover {
-  transform: translateY(-2px);
-}
-
-.hero-cta-primary {
-  border-color: rgba(221, 255, 250, 0.5);
-  background: rgba(7, 41, 50, 0.78);
-  color: #ecfffb;
-  box-shadow: 0 8px 22px rgba(5, 22, 30, 0.3);
-}
-
-.hero-cta-primary:hover {
-  background: rgba(7, 41, 50, 0.9);
-  color: #ffffff;
-}
-
-.hero-cta-secondary {
-  border-color: rgba(228, 255, 250, 0.55);
-  background: rgba(255, 255, 255, 0.2);
-  color: #f6fffd;
-  box-shadow: 0 8px 22px rgba(5, 22, 30, 0.2);
-}
-
-.hero-cta-secondary:hover {
-  background: rgba(255, 255, 255, 0.32);
-  color: #ffffff;
 }
 
 .feature-card {

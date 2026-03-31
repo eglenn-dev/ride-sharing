@@ -8,6 +8,14 @@ export default function Header() {
   const { data: session } = authClient.useSession()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
+  const navLinks = [
+    { label: 'Home', to: '/' as const, search: { loggedOut: undefined, loggedOutName: undefined }, authOnly: false },
+    { label: 'Dashboard', to: '/home' as const, search: { bookingCreated: undefined, bookedRide: undefined }, authOnly: true },
+    { label: 'Find Rides', to: '/rides/search' as const, search: undefined, authOnly: true },
+  ]
+
+  const visibleLinks = navLinks.filter((link) => !link.authOnly || session?.user)
+
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--line)] bg-[var(--header-bg)] px-4 backdrop-blur-lg">
       <nav className="page-wrap flex items-center justify-between gap-3 py-3 sm:py-4">
@@ -23,32 +31,17 @@ export default function Header() {
         </h2>
 
         <div className="hidden items-center gap-4 text-sm font-semibold md:flex">
-          <Link
-            to="/"
-            search={{ loggedOut: undefined, loggedOutName: undefined }}
-            className="nav-link"
-            activeProps={{ className: 'nav-link is-active' }}
-          >
-            Home
-          </Link>
-          {session?.user && (
+          {visibleLinks.map((link) => (
             <Link
-              to="/home" search={{ bookingCreated: undefined, bookedRide: undefined }}
+              key={link.to}
+              to={link.to}
+              search={link.search}
               className="nav-link"
               activeProps={{ className: 'nav-link is-active' }}
             >
-              Dashboard
+              {link.label}
             </Link>
-          )}
-          {session?.user && (
-            <Link
-              to="/rides/search"
-              className="nav-link"
-              activeProps={{ className: 'nav-link is-active' }}
-            >
-              Find Rides
-            </Link>
-          )}
+          ))}
           <details className="relative">
             <summary className="nav-link list-none cursor-pointer">
               Demos
@@ -101,32 +94,17 @@ export default function Header() {
         <div className="page-wrap pb-4 md:hidden">
           <div className="rounded-xl border border-[var(--line)] bg-[var(--chip-bg)] p-2 shadow-[0_14px_30px_rgba(23,58,64,0.14)]">
             <div className="grid gap-1 text-sm font-semibold">
-              <Link
-                to="/"
-                search={{ loggedOut: undefined, loggedOutName: undefined }}
-                className="rounded-lg px-3 py-2 text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Home
-              </Link>
-              {session?.user && (
+              {visibleLinks.map((link) => (
                 <Link
-                  to="/home" search={{ bookingCreated: undefined, bookedRide: undefined }}
+                  key={link.to}
+                  to={link.to}
+                  search={link.search}
                   className="rounded-lg px-3 py-2 text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
                   onClick={() => setMobileMenuOpen(false)}
                 >
-                  Dashboard
+                  {link.label}
                 </Link>
-              )}
-              {session?.user && (
-                <Link
-                  to="/rides/search"
-                  className="rounded-lg px-3 py-2 text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  Find Rides
-                </Link>
-              )}
+              ))}
               <a
                 href="/demo/better-auth"
                 className="rounded-lg px-3 py-2 text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"

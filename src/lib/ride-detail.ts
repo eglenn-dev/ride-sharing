@@ -11,7 +11,7 @@ export const getRideById = createServerFn({ method: 'GET' })
       where: { id: rideId },
       include: {
         driver: {
-          select: { id: true, name: true, email: true },
+          select: { id: true, name: true },
         },
         bookings: {
           where: { status: 'CONFIRMED' },
