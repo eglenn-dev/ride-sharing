@@ -66,7 +66,7 @@ export default function Header() {
         </div>
 
         <div className="hidden items-center gap-2 md:flex">
-          <NotificationBell userId={session?.user?.id} />
+          <NotificationBell userId={session?.user.id} />
           <BetterAuthHeader />
           <ThemeToggle />
         </div>
@@ -140,7 +140,7 @@ export default function Header() {
 
             <div className="mt-2 border-t border-[var(--line)] pt-2">
               <div className="mb-2 flex justify-end px-1">
-                <NotificationBell userId={session?.user?.id} />
+                <NotificationBell userId={session?.user.id} />
               </div>
               <BetterAuthHeader />
             </div>

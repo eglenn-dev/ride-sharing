@@ -163,7 +163,7 @@ function HomePage() {
             departureTime: new Date(booking.ride.departureTime),
         })),
     ].sort((a, b) => a.departureTime.getTime() - b.departureTime.getTime())
-    const nextUpcomingRide = upcomingRideMoments[0]
+    const nextUpcomingRide = upcomingRideMoments.at(0)
     const timeUntilNextRideMs = nextUpcomingRide
         ? nextUpcomingRide.departureTime.getTime() - nowMs
         : null
@@ -269,7 +269,7 @@ function HomePage() {
                 <p className="text-base text-[var(--sea-ink-soft)]">
                     Here's your ride-sharing dashboard.
                 </p>
-                {showNextRideCountdown && nextUpcomingRide ? (
+                {showNextRideCountdown && nextUpcomingRide != null ? (
                     <div className="mt-4 rounded-xl border border-[rgba(50,143,151,0.28)] bg-[rgba(79,184,178,0.1)] p-4">
                         <p className="m-0 text-sm font-semibold text-[var(--sea-ink)]">
                             Next ride in {countdownHours}h {countdownMinutes}m {countdownSeconds}s
@@ -367,14 +367,12 @@ function HomePage() {
                         >
                             Offer a Ride
                         </button>
-                        {session?.user && (
-                            <button
-                                className="w-full rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-4 py-2 text-sm font-semibold text-[var(--sea-ink)] transition hover:border-[rgba(23,58,64,0.35)]"
-                                onClick={handleLogout}
-                            >
-                                Logout
-                            </button>
-                        )}
+                        <button
+                            className="w-full rounded-full border border-[rgba(23,58,64,0.2)] bg-white/50 px-4 py-2 text-sm font-semibold text-[var(--sea-ink)] transition hover:border-[rgba(23,58,64,0.35)]"
+                            onClick={handleLogout}
+                        >
+                            Logout
+                        </button>
                     </div>
                 </article>
 
