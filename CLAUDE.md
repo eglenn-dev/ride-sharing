@@ -27,4 +27,6 @@ Please follow these rules when contributing code:
 - Don't unnecessarily add `try`/`catch` blocks.
 - Don't cast `any`
 
-Other rules in [AGENTS](./AGENTS.md)
+### Other
+
+- This project uses pnpm, not npm or yarn.

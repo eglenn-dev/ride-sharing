@@ -19,6 +19,6 @@ export async function requireAuthenticatedRoute() {
 export async function requireGuestRoute() {
   const session = await getRouteSession()
   if (session) {
-    throw redirect({ to: '/home' })
+    throw redirect({ to: '/home', search: { bookingCreated: undefined, bookedRide: undefined } })
   }
 }

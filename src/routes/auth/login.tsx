@@ -33,7 +33,7 @@ function AuthLoginPage() {
       return
     }
 
-    await router.navigate({ to: '/' })
+    await router.navigate({ to: '/home', search: { bookingCreated: undefined, bookedRide: undefined } })
   }
 
   return (
