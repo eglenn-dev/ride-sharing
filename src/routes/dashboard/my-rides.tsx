@@ -27,13 +27,19 @@ function MyRidesPage() {
   const { rides } = Route.useLoaderData()
   const router = useRouter()
   const [pendingId, setPendingId] = useState<string | null>(null)
+  const [cancelError, setCancelError] = useState<string | null>(null)
 
   const handleCancel = async (id: string) => {
     if (!confirm('Cancel this ride? Riders will be notified.')) return
     setPendingId(id)
+    setCancelError(null)
     try {
       await deleteRide({ data: { id } })
       await router.invalidate()
+    } catch (error) {
+      setCancelError(
+        error instanceof Error ? error.message : 'Unable to cancel ride.',
+      )
     } finally {
       setPendingId(null)
     }
@@ -49,6 +55,12 @@ function MyRidesPage() {
         <p className="mb-6 text-sm text-[var(--sea-ink-soft)] sm:text-base">
           Rides you have created.
         </p>
+
+        {cancelError ? (
+          <p className="mb-4 rounded-lg border border-[rgba(183,63,48,0.35)] bg-[rgba(183,63,48,0.08)] p-3 text-sm text-[rgb(138,44,35)]">
+            {cancelError}
+          </p>
+        ) : null}
 
         {rides.length === 0 ? (
           <div className="rounded-2xl border border-[var(--line)] bg-white/40 p-6 text-center">

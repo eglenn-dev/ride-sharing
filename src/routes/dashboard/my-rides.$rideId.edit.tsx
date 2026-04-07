@@ -1,15 +1,14 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
-import { getRideById } from '#/lib/ride-detail'
-import { updateRide } from '#/lib/rides'
+import { getEditableRide, updateRide } from '#/lib/rides'
 
 export const Route = createFileRoute('/dashboard/my-rides/$rideId/edit')({
   beforeLoad: async () => {
     await requireAuthenticatedRoute()
   },
   loader: async ({ params }) => {
-    return { ride: await getRideById({ data: params.rideId }) }
+    return { ride: await getEditableRide({ data: params.rideId }) }
   },
   component: EditRidePage,
 })

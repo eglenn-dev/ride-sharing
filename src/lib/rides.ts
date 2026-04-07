@@ -35,6 +35,34 @@ export const createRide = createServerFn({ method: 'POST' })
     return ride
   })
 
+export const getEditableRide = createServerFn({ method: 'GET' })
+  .inputValidator((rideId: string) => rideId)
+  .handler(async ({ data: rideId }) => {
+    const { user } = await requireServerSession()
+
+    const ride = await prisma.ride.findFirst({
+      where: { id: rideId, driverId: user.id },
+      select: {
+        id: true,
+        origin: true,
+        destination: true,
+        departureTime: true,
+        seats: true,
+        availableSeats: true,
+        price: true,
+        type: true,
+        description: true,
+        status: true,
+      },
+    })
+
+    if (!ride) {
+      throw new Error('Ride not found')
+    }
+
+    return ride
+  })
+
 const updateRideInput = z.object({
   id: z.string().min(1),
   origin: z.string().min(1).optional(),
