@@ -47,9 +47,9 @@ export default function RideTemplateForm({
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
-  const update = <K extends keyof RideTemplateFormValues>(
-    key: K,
-    value: RideTemplateFormValues[K],
+  const update = <TKey extends keyof RideTemplateFormValues>(
+    key: TKey,
+    value: RideTemplateFormValues[TKey],
   ) => setValues((current) => ({ ...current, [key]: value }))
 
   const toggleDay = (day: number) => {
