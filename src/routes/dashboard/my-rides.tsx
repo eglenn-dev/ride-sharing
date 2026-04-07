@@ -1,6 +1,7 @@
-import { createFileRoute, Link } from '@tanstack/react-router'
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
+import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
-import { getUserRides } from '#/lib/rides'
+import { deleteRide, getUserRides } from '#/lib/rides'
 
 export const Route = createFileRoute('/dashboard/my-rides')({
   beforeLoad: async () => {
@@ -24,6 +25,19 @@ const priceFormatter = new Intl.NumberFormat(undefined, {
 
 function MyRidesPage() {
   const { rides } = Route.useLoaderData()
+  const router = useRouter()
+  const [pendingId, setPendingId] = useState<string | null>(null)
+
+  const handleCancel = async (id: string) => {
+    if (!confirm('Cancel this ride? Riders will be notified.')) return
+    setPendingId(id)
+    try {
+      await deleteRide({ data: { id } })
+      await router.invalidate()
+    } finally {
+      setPendingId(null)
+    }
+  }
 
   return (
     <main className="page-wrap px-4 pb-8 pt-14">
@@ -76,6 +90,25 @@ function MyRidesPage() {
                   {ride._count.bookings} booking
                   {ride._count.bookings === 1 ? '' : 's'}
                 </p>
+                {ride.status === 'ACTIVE' ? (
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    <Link
+                      to="/dashboard/my-rides/$rideId/edit"
+                      params={{ rideId: ride.id }}
+                      className="rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.14)] px-3 py-1.5 text-xs font-semibold text-[var(--lagoon-deep)] no-underline transition hover:bg-[rgba(79,184,178,0.24)]"
+                    >
+                      Edit
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => void handleCancel(ride.id)}
+                      disabled={pendingId === ride.id}
+                      className="rounded-full border border-[rgba(183,63,48,0.35)] bg-[rgba(183,63,48,0.08)] px-3 py-1.5 text-xs font-semibold text-[rgb(138,44,35)] transition hover:bg-[rgba(183,63,48,0.16)] disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {pendingId === ride.id ? 'Cancelling...' : 'Cancel ride'}
+                    </button>
+                  </div>
+                ) : null}
               </li>
             ))}
           </ul>
