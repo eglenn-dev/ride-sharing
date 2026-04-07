@@ -51,32 +51,51 @@ export const updateRide = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const { user } = await requireServerSession()
 
-    const existing = await prisma.ride.findUnique({ where: { id: data.id } })
-    if (!existing || existing.driverId !== user.id) {
-      throw new Error('Ride not found')
-    }
+    return await prisma.$transaction(async (tx) => {
+      const existing = await tx.ride.findFirst({
+        where: { id: data.id, driverId: user.id },
+      })
+      if (!existing) {
+        throw new Error('Ride not found')
+      }
 
-    const bookedSeats = existing.seats - existing.availableSeats
-    const nextSeats = data.seats ?? existing.seats
-    if (nextSeats < bookedSeats) {
-      throw new Error('Cannot reduce seats below already booked seats')
-    }
+      const bookedSeats = existing.seats - existing.availableSeats
+      const nextSeats = data.seats ?? existing.seats
+      if (nextSeats < bookedSeats) {
+        throw new Error('Cannot reduce seats below already booked seats')
+      }
 
-    return await prisma.ride.update({
-      where: { id: data.id },
-      data: {
-        origin: data.origin,
-        destination: data.destination,
-        departureTime: data.departureTime
-          ? new Date(data.departureTime)
-          : undefined,
-        seats: data.seats,
-        availableSeats:
-          data.seats !== undefined ? nextSeats - bookedSeats : undefined,
-        price: data.price,
-        type: data.type,
-        description: data.description,
-      },
+      const result = await tx.ride.updateMany({
+        where: {
+          id: data.id,
+          driverId: user.id,
+          seats: existing.seats,
+          availableSeats: existing.availableSeats,
+        },
+        data: {
+          origin: data.origin,
+          destination: data.destination,
+          departureTime: data.departureTime
+            ? new Date(data.departureTime)
+            : undefined,
+          seats: data.seats,
+          availableSeats:
+            data.seats !== undefined ? nextSeats - bookedSeats : undefined,
+          price: data.price,
+          type: data.type,
+          description: data.description,
+        },
+      })
+
+      if (result.count !== 1) {
+        throw new Error('Ride was modified concurrently, please try again')
+      }
+
+      const ride = await tx.ride.findUnique({ where: { id: data.id } })
+      if (!ride) {
+        throw new Error('Ride not found')
+      }
+      return ride
     })
   })
 
@@ -87,14 +106,43 @@ export const deleteRide = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const { user } = await requireServerSession()
 
-    const existing = await prisma.ride.findUnique({ where: { id: data.id } })
-    if (!existing || existing.driverId !== user.id) {
-      throw new Error('Ride not found')
-    }
+    return await prisma.$transaction(async (tx) => {
+      const result = await tx.ride.updateMany({
+        where: { id: data.id, driverId: user.id, status: 'ACTIVE' },
+        data: { status: 'CANCELLED' },
+      })
 
-    return await prisma.ride.update({
-      where: { id: data.id },
-      data: { status: 'CANCELLED' },
+      if (result.count !== 1) {
+        throw new Error('Ride not found')
+      }
+
+      const ride = await tx.ride.findUnique({ where: { id: data.id } })
+      if (!ride) {
+        throw new Error('Ride not found')
+      }
+
+      const affectedBookings = await tx.booking.findMany({
+        where: { rideId: data.id, status: 'CONFIRMED' },
+        select: { id: true, riderId: true },
+      })
+
+      if (affectedBookings.length > 0) {
+        await tx.booking.updateMany({
+          where: { rideId: data.id, status: 'CONFIRMED' },
+          data: { status: 'CANCELLED' },
+        })
+
+        await tx.notification.createMany({
+          data: affectedBookings.map((booking) => ({
+            userId: booking.riderId,
+            type: 'RIDE_CANCELLED',
+            message: `Your ride from ${ride.origin} to ${ride.destination} was cancelled by the driver.`,
+            rideId: data.id,
+          })),
+        })
+      }
+
+      return ride
     })
   })
 
