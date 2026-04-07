@@ -12,23 +12,23 @@ export const createRideSchema = z.object({
   description: z.string().optional(),
 })
 
-export const rideIdSchema = z.object({
-  rideId: z.string().min(1),
-})
+export const rideIdSchema = z.string().min(1)
+
+export const bookingIdSchema = z.string().min(1)
 
 export const searchRidesSchema = z.object({
   origin: z.string().optional(),
   destination: z.string().optional(),
-  departureDate: z.iso.date().optional(),
+  date: z.string().optional(),
+  type: rideTypeSchema.optional(),
 })
 
 export const createBookingSchema = z.object({
   rideId: z.string().min(1),
+  seats: z.int().positive().optional(),
 })
 
-export const cancelBookingSchema = z.object({
-  bookingId: z.string().min(1),
-})
+export const cancelBookingSchema = bookingIdSchema
 
 export class ApiError extends Error {
   code: string
