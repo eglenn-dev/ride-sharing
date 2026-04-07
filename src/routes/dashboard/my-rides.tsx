@@ -2,6 +2,7 @@ import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
 import { deleteRide, getUserRides } from '#/lib/rides'
+import MyRidesSkeleton from '#/components/skeletons/MyRidesSkeleton'
 
 export const Route = createFileRoute('/dashboard/my-rides')({
   beforeLoad: async () => {
@@ -10,6 +11,8 @@ export const Route = createFileRoute('/dashboard/my-rides')({
   loader: async () => {
     return { rides: await getUserRides() }
   },
+  pendingComponent: MyRidesSkeleton,
+  pendingMs: 100,
   component: MyRidesPage,
 })
 
@@ -52,9 +55,17 @@ function MyRidesPage() {
         <h1 className="display-title mb-3 text-3xl font-bold tracking-tight text-[var(--sea-ink)] sm:text-4xl">
           My Rides
         </h1>
-        <p className="mb-6 text-sm text-[var(--sea-ink-soft)] sm:text-base">
+        <p className="mb-2 text-sm text-[var(--sea-ink-soft)] sm:text-base">
           Rides you have created.
         </p>
+        <div className="mb-6">
+          <Link
+            to="/rides/templates"
+            className="inline-block rounded-full border border-[var(--line)] bg-white/60 px-3 py-1.5 text-xs font-semibold text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
+          >
+            Recurring templates →
+          </Link>
+        </div>
 
         {cancelError ? (
           <p className="mb-4 rounded-lg border border-[rgba(183,63,48,0.35)] bg-[rgba(183,63,48,0.08)] p-3 text-sm text-[rgb(138,44,35)]">

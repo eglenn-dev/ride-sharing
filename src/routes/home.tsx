@@ -3,9 +3,12 @@ import { useEffect, useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
 import { authClient } from '#/lib/auth-client'
 import BookingCard from '#/components/BookingCard'
+import HomeSkeleton from '#/components/skeletons/HomeSkeleton'
+import ReviewDialog from '#/components/reviews/ReviewDialog'
 import { cancelBooking } from '#/lib/cancel-booking'
 import { updateBookingSeats } from '#/lib/bookings'
 import { getNotifications } from '#/lib/notifications'
+import { getPendingReviewsForCurrentUser } from '#/lib/ratings'
 import { getUserRides } from '#/lib/rides'
 import { getUserBookings } from '#/lib/user-bookings'
 
@@ -27,17 +30,22 @@ export const Route = createFileRoute('/home')({
     },
     loader: async () => {
         const session = await requireAuthenticatedRoute()
-        const rides = await getUserRides()
-        const bookings = await getUserBookings()
-        const notifications = await getNotifications()
-        return { session, rides, bookings, notifications }
+        const [rides, bookings, notifications, pendingReviews] = await Promise.all([
+            getUserRides(),
+            getUserBookings(),
+            getNotifications(),
+            getPendingReviewsForCurrentUser(),
+        ])
+        return { session, rides, bookings, notifications, pendingReviews }
     },
+    pendingComponent: HomeSkeleton,
+    pendingMs: 100,
     component: HomePage,
 })
 
 function HomePage() {
     const router = useRouter()
-    const { session, rides, bookings, notifications } = Route.useLoaderData()
+    const { session, rides, bookings, notifications, pendingReviews } = Route.useLoaderData()
     const { bookingCreated, bookedRide } = Route.useSearch()
     const [cancellingBookingId, setCancellingBookingId] = useState<string | null>(null)
     const [cancelError, setCancelError] = useState<string | null>(null)
@@ -45,6 +53,10 @@ function HomePage() {
     const [editingSeats, setEditingSeats] = useState(1)
     const [savingBookingId, setSavingBookingId] = useState<string | null>(null)
     const [nowMs, setNowMs] = useState(Date.now())
+    const [activeReviewKey, setActiveReviewKey] = useState<string | null>(null)
+    const activeReview = pendingReviews.find(
+        (item) => `${item.rideId}:${item.subject.id}` === activeReviewKey,
+    )
 
     useEffect(() => {
         const intervalId = window.setInterval(() => {
@@ -410,6 +422,60 @@ function HomePage() {
                     </dl>
                 </article>
             </section>
+
+            {pendingReviews.length > 0 && (
+                <section className="mt-8">
+                    <div className="mb-3 flex items-center justify-between gap-3">
+                        <h2 className="m-0 text-xl font-semibold text-[var(--sea-ink)]">
+                            Awaiting your review
+                        </h2>
+                        <span className="text-sm text-[var(--sea-ink-soft)]">
+                            {pendingReviews.length} pending
+                        </span>
+                    </div>
+                    <ul className="m-0 grid list-none gap-3 p-0 sm:grid-cols-2 lg:grid-cols-3">
+                        {pendingReviews.map((item) => {
+                            const key = `${item.rideId}:${item.subject.id}`
+                            return (
+                                <li
+                                    key={key}
+                                    className="rounded-2xl border border-[var(--line)] bg-white/50 p-4"
+                                >
+                                    <p className="m-0 text-sm font-semibold text-[var(--sea-ink)]">
+                                        {item.subject.name}
+                                    </p>
+                                    <p className="m-0 mt-1 text-xs text-[var(--sea-ink-soft)]">
+                                        {item.rideLabel}
+                                    </p>
+                                    <p className="m-0 mt-1 text-xs text-[var(--sea-ink-soft)]">
+                                        {DATE_TIME_FORMATTER.format(new Date(item.departureTime))}
+                                    </p>
+                                    <button
+                                        type="button"
+                                        onClick={() => setActiveReviewKey(key)}
+                                        className="mt-3 inline-flex rounded-full border border-[rgba(50,143,151,0.3)] bg-[rgba(79,184,178,0.18)] px-3 py-1.5 text-xs font-semibold text-[var(--lagoon-deep)] transition hover:bg-[rgba(79,184,178,0.28)]"
+                                    >
+                                        Leave a review
+                                    </button>
+                                </li>
+                            )
+                        })}
+                    </ul>
+                </section>
+            )}
+
+            {activeReview ? (
+                <ReviewDialog
+                    rideId={activeReview.rideId}
+                    rideLabel={activeReview.rideLabel}
+                    subject={activeReview.subject}
+                    onClose={() => setActiveReviewKey(null)}
+                    onSubmitted={() => {
+                        setActiveReviewKey(null)
+                        void router.invalidate()
+                    }}
+                />
+            ) : null}
 
             <section className="mt-8">
                 <div className="mb-3 flex items-center justify-between gap-3">

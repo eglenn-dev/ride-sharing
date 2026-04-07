@@ -30,6 +30,32 @@ export const createBookingSchema = z.object({
 
 export const cancelBookingSchema = bookingIdSchema
 
+export const submitReviewSchema = z.object({
+  rideId: z.string().min(1),
+  subjectId: z.string().min(1),
+  rating: z.int().min(1).max(5),
+  comment: z.string().trim().max(1000).optional(),
+})
+
+export const rideTemplateInputSchema = z.object({
+  origin: z.string().trim().min(1),
+  destination: z.string().trim().min(1),
+  type: rideTypeSchema,
+  seats: z.int().positive(),
+  price: z.number().nonnegative(),
+  description: z.string().trim().max(1000).optional(),
+  daysOfWeek: z.array(z.int().min(0).max(6)).min(1),
+  departureHour: z.int().min(0).max(23),
+  departureMin: z.int().min(0).max(59),
+  startsOn: z.iso.datetime(),
+  endsOn: z.iso.datetime().optional(),
+})
+
+export const sendMessageSchema = z.object({
+  threadId: z.string().min(1),
+  body: z.string().trim().min(1).max(2000),
+})
+
 export class ApiError extends Error {
   code: string
   status: number

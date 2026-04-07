@@ -1,3 +1,6 @@
+import { useNavigate } from '@tanstack/react-router'
+import { useState } from 'react'
+import { getOrCreateThreadForBooking } from '#/lib/messages'
 import type { getUserBookings } from '#/lib/user-bookings'
 
 type Booking = Awaited<ReturnType<typeof getUserBookings>>[number]
@@ -34,6 +37,24 @@ export default function BookingCard({
   onCancelBooking,
   onEditingSeatsChange,
 }: BookingCardProps) {
+  const navigate = useNavigate()
+  const [isOpeningThread, setIsOpeningThread] = useState(false)
+
+  const openThread = async () => {
+    setIsOpeningThread(true)
+    try {
+      const thread = await getOrCreateThreadForBooking({
+        data: { bookingId: booking.id },
+      })
+      await navigate({
+        to: '/messages/$threadId',
+        params: { threadId: thread.id },
+      })
+    } catch {
+      setIsOpeningThread(false)
+    }
+  }
+
   const canEditBooking =
     booking.status === 'CONFIRMED' &&
     new Date(booking.ride.departureTime).getTime() > nowMs
@@ -155,6 +176,15 @@ export default function BookingCard({
               : 'Cancelled'}
         </button>
       </div>
+
+      <button
+        type="button"
+        onClick={() => void openThread()}
+        disabled={isOpeningThread}
+        className="mt-2 w-full rounded-full border border-[var(--line)] bg-white/60 px-4 py-2 text-xs font-semibold text-[var(--sea-ink)] transition hover:bg-[var(--link-bg-hover)] disabled:cursor-not-allowed disabled:opacity-60"
+      >
+        {isOpeningThread ? 'Opening...' : 'Message driver'}
+      </button>
     </article>
   )
 }

@@ -8,18 +8,22 @@ datasource db {
 }
 
 model User {
-  id            String    @id
-  name          String
-  email         String
-  emailVerified Boolean
-  image         String?
-  createdAt     DateTime
-  updatedAt     DateTime
-  sessions      Session[]
-  accounts      Account[]
-  rides         Ride[]         @relation("DriverRides")
-  bookings      Booking[]      @relation("RiderBookings")
-  notifications Notification[]
+  id              String    @id
+  name            String
+  email           String
+  emailVerified   Boolean
+  image           String?
+  createdAt       DateTime
+  updatedAt       DateTime
+  sessions        Session[]
+  accounts        Account[]
+  rides           Ride[]         @relation("DriverRides")
+  bookings        Booking[]      @relation("RiderBookings")
+  notifications   Notification[]
+  reviewsAuthored Review[]       @relation("ReviewAuthor")
+  reviewsReceived Review[]       @relation("ReviewSubject")
+  rideTemplates   RideTemplate[] @relation("DriverTemplates")
+  messages        Message[]
 
   @@map("user")
 }
@@ -89,6 +93,9 @@ enum NotificationType {
   BOOKING_CANCELLED
   RIDE_CANCELLED
   RIDE_UPDATED
+  RIDE_COMPLETED
+  REVIEW_RECEIVED
+  MESSAGE_RECEIVED
 }
 
 model Ride {
@@ -103,13 +110,17 @@ model Ride {
   type           RideType   @default(SHARED)
   status         RideStatus @default(ACTIVE)
   description    String?
+  templateId     String?
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
 
-  driver        User          @relation("DriverRides", fields: [driverId], references: [id], onDelete: Cascade)
+  driver        User           @relation("DriverRides", fields: [driverId], references: [id], onDelete: Cascade)
+  template      RideTemplate?  @relation(fields: [templateId], references: [id], onDelete: SetNull)
   bookings      Booking[]
   notifications Notification[]
+  reviews       Review[]
 
+  @@unique([templateId, departureTime])
   @@index([origin])
   @@index([destination])
   @@index([departureTime])
@@ -127,8 +138,9 @@ model Booking {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
 
-  rider User @relation("RiderBookings", fields: [riderId], references: [id], onDelete: Cascade)
-  ride  Ride @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  rider         User           @relation("RiderBookings", fields: [riderId], references: [id], onDelete: Cascade)
+  ride          Ride           @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  messageThread MessageThread?
 
   @@index([riderId])
   @@index([rideId])
@@ -152,4 +164,75 @@ model Notification {
   @@index([userId, isRead])
   @@index([createdAt])
   @@map("notification")
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rideId    String
+  authorId  String
+  subjectId String
+  rating    Int
+  comment   String?
+  createdAt DateTime @default(now())
+
+  ride    Ride @relation(fields: [rideId], references: [id], onDelete: Cascade)
+  author  User @relation("ReviewAuthor", fields: [authorId], references: [id], onDelete: Cascade)
+  subject User @relation("ReviewSubject", fields: [subjectId], references: [id], onDelete: Cascade)
+
+  @@unique([rideId, authorId, subjectId])
+  @@index([subjectId])
+  @@index([authorId])
+  @@map("review")
+}
+
+model RideTemplate {
+  id            String   @id @default(uuid())
+  driverId      String
+  origin        String
+  destination   String
+  type          RideType @default(SHARED)
+  seats         Int
+  price         Float
+  description   String?
+  daysOfWeek    Int[]
+  departureHour Int
+  departureMin  Int
+  startsOn      DateTime
+  endsOn        DateTime?
+  isPaused      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  driver User   @relation("DriverTemplates", fields: [driverId], references: [id], onDelete: Cascade)
+  rides  Ride[]
+
+  @@index([driverId])
+  @@map("ride_template")
+}
+
+model MessageThread {
+  id        String   @id @default(uuid())
+  bookingId String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  booking  Booking   @relation(fields: [bookingId], references: [id], onDelete: Cascade)
+  messages Message[]
+
+  @@map("message_thread")
+}
+
+model Message {
+  id        String   @id @default(uuid())
+  threadId  String
+  authorId  String
+  body      String
+  readBy    String[] @default([])
+  createdAt DateTime @default(now())
+
+  thread MessageThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  author User          @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  @@index([threadId, createdAt])
+  @@map("message")
 }

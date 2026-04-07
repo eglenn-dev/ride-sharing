@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "crons": [
+    {
+      "path": "/api/cron/materialize-recurring-rides",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/complete-rides",
+      "schedule": "*/30 * * * *"
+    }
+  ]
+}

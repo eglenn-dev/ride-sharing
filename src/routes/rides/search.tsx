@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
+import SearchSkeleton from '#/components/skeletons/SearchSkeleton'
 import { searchRides } from '#/lib/search-rides'
 
 type RideSearchType = 'SHARED' | 'EXCLUSIVE'
@@ -46,6 +47,8 @@ export const Route = createFileRoute('/rides/search')({
       results: await searchRides({ data: deps }),
     }
   },
+  pendingComponent: SearchSkeleton,
+  pendingMs: 100,
   component: RidesSearchPage,
 })
 

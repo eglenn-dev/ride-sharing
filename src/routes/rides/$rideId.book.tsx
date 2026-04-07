@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
+import BookingPageSkeleton from '#/components/skeletons/BookingPageSkeleton'
 import { createBooking } from '#/lib/bookings'
 import { getRideById } from '#/lib/ride-detail'
 
@@ -17,6 +18,8 @@ export const Route = createFileRoute('/rides/$rideId/book')({
     const ride = await getRideById({ data: params.rideId })
     return { ride }
   },
+  pendingComponent: BookingPageSkeleton,
+  pendingMs: 100,
   component: RideBookingPage,
 })
 

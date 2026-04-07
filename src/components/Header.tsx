@@ -19,7 +19,9 @@ export default function Header({ initialSession }: HeaderProps = {}) {
   const navLinks = [
     { label: 'Home', to: '/' as const, search: { loggedOut: undefined, loggedOutName: undefined }, authOnly: false },
     { label: 'Dashboard', to: '/home' as const, search: { bookingCreated: undefined, bookedRide: undefined }, authOnly: true },
+    { label: 'Calendar', to: '/dashboard/calendar' as const, search: undefined, authOnly: true },
     { label: 'Find Rides', to: '/rides/search' as const, search: undefined, authOnly: true },
+    { label: 'Messages', to: '/messages' as const, search: undefined, authOnly: true },
   ]
 
   const visibleLinks = navLinks.filter((link) => !link.authOnly || session?.user)

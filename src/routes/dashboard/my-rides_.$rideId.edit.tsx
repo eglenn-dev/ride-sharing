@@ -1,6 +1,7 @@
 import { createFileRoute, useRouter } from '@tanstack/react-router'
 import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
+import EditRideSkeleton from '#/components/skeletons/EditRideSkeleton'
 import { getEditableRide, updateRide } from '#/lib/rides'
 
 export const Route = createFileRoute('/dashboard/my-rides_/$rideId/edit')({
@@ -10,6 +11,8 @@ export const Route = createFileRoute('/dashboard/my-rides_/$rideId/edit')({
   loader: async ({ params }) => {
     return { ride: await getEditableRide({ data: params.rideId }) }
   },
+  pendingComponent: EditRideSkeleton,
+  pendingMs: 100,
   component: EditRidePage,
 })
 

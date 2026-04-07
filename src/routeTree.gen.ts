@@ -10,22 +10,35 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SignupRouteImport } from './routes/signup'
+import { Route as MessagesRouteImport } from './routes/messages'
 import { Route as LoginRouteImport } from './routes/login'
 import { Route as HomeRouteImport } from './routes/home'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RidesTemplatesRouteImport } from './routes/rides/templates'
 import { Route as RidesSearchRouteImport } from './routes/rides/search'
 import { Route as RidesCreateRouteImport } from './routes/rides/create'
+import { Route as MessagesThreadIdRouteImport } from './routes/messages_.$threadId'
 import { Route as DashboardMyRidesRouteImport } from './routes/dashboard/my-rides'
+import { Route as DashboardCalendarRouteImport } from './routes/dashboard/calendar'
 import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
+import { Route as RidesTemplatesNewRouteImport } from './routes/rides/templates_.new'
 import { Route as RidesRideIdBookRouteImport } from './routes/rides/$rideId.book'
+import { Route as ApiCronMaterializeRecurringRidesRouteImport } from './routes/api/cron/materialize-recurring-rides'
+import { Route as ApiCronCompleteRidesRouteImport } from './routes/api/cron/complete-rides'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as RidesTemplatesTemplateIdEditRouteImport } from './routes/rides/templates_.$templateId.edit'
 import { Route as DashboardMyRidesRideIdEditRouteImport } from './routes/dashboard/my-rides_.$rideId.edit'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
   path: '/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MessagesRoute = MessagesRouteImport.update({
+  id: '/messages',
+  path: '/messages',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LoginRoute = LoginRouteImport.update({
@@ -48,6 +61,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RidesTemplatesRoute = RidesTemplatesRouteImport.update({
+  id: '/rides/templates',
+  path: '/rides/templates',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RidesSearchRoute = RidesSearchRouteImport.update({
   id: '/rides/search',
   path: '/rides/search',
@@ -58,9 +76,19 @@ const RidesCreateRoute = RidesCreateRouteImport.update({
   path: '/rides/create',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MessagesThreadIdRoute = MessagesThreadIdRouteImport.update({
+  id: '/messages_/$threadId',
+  path: '/messages/$threadId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const DashboardMyRidesRoute = DashboardMyRidesRouteImport.update({
   id: '/dashboard/my-rides',
   path: '/dashboard/my-rides',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardCalendarRoute = DashboardCalendarRouteImport.update({
+  id: '/dashboard/calendar',
+  path: '/dashboard/calendar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthSignupRoute = AuthSignupRouteImport.update({
@@ -73,9 +101,25 @@ const AuthLoginRoute = AuthLoginRouteImport.update({
   path: '/auth/login',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RidesTemplatesNewRoute = RidesTemplatesNewRouteImport.update({
+  id: '/rides/templates_/new',
+  path: '/rides/templates/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RidesRideIdBookRoute = RidesRideIdBookRouteImport.update({
   id: '/rides/$rideId/book',
   path: '/rides/$rideId/book',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiCronMaterializeRecurringRidesRoute =
+  ApiCronMaterializeRecurringRidesRouteImport.update({
+    id: '/api/cron/materialize-recurring-rides',
+    path: '/api/cron/materialize-recurring-rides',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const ApiCronCompleteRidesRoute = ApiCronCompleteRidesRouteImport.update({
+  id: '/api/cron/complete-rides',
+  path: '/api/cron/complete-rides',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
@@ -83,6 +127,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RidesTemplatesTemplateIdEditRoute =
+  RidesTemplatesTemplateIdEditRouteImport.update({
+    id: '/rides/templates_/$templateId/edit',
+    path: '/rides/templates/$templateId/edit',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 const DashboardMyRidesRideIdEditRoute =
   DashboardMyRidesRideIdEditRouteImport.update({
     id: '/dashboard/my-rides_/$rideId/edit',
@@ -95,30 +145,46 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
   '/signup': typeof SignupRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/my-rides': typeof DashboardMyRidesRoute
+  '/messages/$threadId': typeof MessagesThreadIdRoute
   '/rides/create': typeof RidesCreateRoute
   '/rides/search': typeof RidesSearchRoute
+  '/rides/templates': typeof RidesTemplatesRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/cron/complete-rides': typeof ApiCronCompleteRidesRoute
+  '/api/cron/materialize-recurring-rides': typeof ApiCronMaterializeRecurringRidesRoute
   '/rides/$rideId/book': typeof RidesRideIdBookRoute
+  '/rides/templates/new': typeof RidesTemplatesNewRoute
   '/dashboard/my-rides/$rideId/edit': typeof DashboardMyRidesRideIdEditRoute
+  '/rides/templates/$templateId/edit': typeof RidesTemplatesTemplateIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
   '/signup': typeof SignupRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/my-rides': typeof DashboardMyRidesRoute
+  '/messages/$threadId': typeof MessagesThreadIdRoute
   '/rides/create': typeof RidesCreateRoute
   '/rides/search': typeof RidesSearchRoute
+  '/rides/templates': typeof RidesTemplatesRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/cron/complete-rides': typeof ApiCronCompleteRidesRoute
+  '/api/cron/materialize-recurring-rides': typeof ApiCronMaterializeRecurringRidesRoute
   '/rides/$rideId/book': typeof RidesRideIdBookRoute
+  '/rides/templates/new': typeof RidesTemplatesNewRoute
   '/dashboard/my-rides/$rideId/edit': typeof DashboardMyRidesRideIdEditRoute
+  '/rides/templates/$templateId/edit': typeof RidesTemplatesTemplateIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -126,15 +192,23 @@ export interface FileRoutesById {
   '/about': typeof AboutRoute
   '/home': typeof HomeRoute
   '/login': typeof LoginRoute
+  '/messages': typeof MessagesRoute
   '/signup': typeof SignupRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
+  '/dashboard/calendar': typeof DashboardCalendarRoute
   '/dashboard/my-rides': typeof DashboardMyRidesRoute
+  '/messages_/$threadId': typeof MessagesThreadIdRoute
   '/rides/create': typeof RidesCreateRoute
   '/rides/search': typeof RidesSearchRoute
+  '/rides/templates': typeof RidesTemplatesRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
+  '/api/cron/complete-rides': typeof ApiCronCompleteRidesRoute
+  '/api/cron/materialize-recurring-rides': typeof ApiCronMaterializeRecurringRidesRoute
   '/rides/$rideId/book': typeof RidesRideIdBookRoute
+  '/rides/templates_/new': typeof RidesTemplatesNewRoute
   '/dashboard/my-rides_/$rideId/edit': typeof DashboardMyRidesRideIdEditRoute
+  '/rides/templates_/$templateId/edit': typeof RidesTemplatesTemplateIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -143,45 +217,69 @@ export interface FileRouteTypes {
     | '/about'
     | '/home'
     | '/login'
+    | '/messages'
     | '/signup'
     | '/auth/login'
     | '/auth/signup'
+    | '/dashboard/calendar'
     | '/dashboard/my-rides'
+    | '/messages/$threadId'
     | '/rides/create'
     | '/rides/search'
+    | '/rides/templates'
     | '/api/auth/$'
+    | '/api/cron/complete-rides'
+    | '/api/cron/materialize-recurring-rides'
     | '/rides/$rideId/book'
+    | '/rides/templates/new'
     | '/dashboard/my-rides/$rideId/edit'
+    | '/rides/templates/$templateId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/about'
     | '/home'
     | '/login'
+    | '/messages'
     | '/signup'
     | '/auth/login'
     | '/auth/signup'
+    | '/dashboard/calendar'
     | '/dashboard/my-rides'
+    | '/messages/$threadId'
     | '/rides/create'
     | '/rides/search'
+    | '/rides/templates'
     | '/api/auth/$'
+    | '/api/cron/complete-rides'
+    | '/api/cron/materialize-recurring-rides'
     | '/rides/$rideId/book'
+    | '/rides/templates/new'
     | '/dashboard/my-rides/$rideId/edit'
+    | '/rides/templates/$templateId/edit'
   id:
     | '__root__'
     | '/'
     | '/about'
     | '/home'
     | '/login'
+    | '/messages'
     | '/signup'
     | '/auth/login'
     | '/auth/signup'
+    | '/dashboard/calendar'
     | '/dashboard/my-rides'
+    | '/messages_/$threadId'
     | '/rides/create'
     | '/rides/search'
+    | '/rides/templates'
     | '/api/auth/$'
+    | '/api/cron/complete-rides'
+    | '/api/cron/materialize-recurring-rides'
     | '/rides/$rideId/book'
+    | '/rides/templates_/new'
     | '/dashboard/my-rides_/$rideId/edit'
+    | '/rides/templates_/$templateId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -189,15 +287,23 @@ export interface RootRouteChildren {
   AboutRoute: typeof AboutRoute
   HomeRoute: typeof HomeRoute
   LoginRoute: typeof LoginRoute
+  MessagesRoute: typeof MessagesRoute
   SignupRoute: typeof SignupRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
+  DashboardCalendarRoute: typeof DashboardCalendarRoute
   DashboardMyRidesRoute: typeof DashboardMyRidesRoute
+  MessagesThreadIdRoute: typeof MessagesThreadIdRoute
   RidesCreateRoute: typeof RidesCreateRoute
   RidesSearchRoute: typeof RidesSearchRoute
+  RidesTemplatesRoute: typeof RidesTemplatesRoute
   ApiAuthSplatRoute: typeof ApiAuthSplatRoute
+  ApiCronCompleteRidesRoute: typeof ApiCronCompleteRidesRoute
+  ApiCronMaterializeRecurringRidesRoute: typeof ApiCronMaterializeRecurringRidesRoute
   RidesRideIdBookRoute: typeof RidesRideIdBookRoute
+  RidesTemplatesNewRoute: typeof RidesTemplatesNewRoute
   DashboardMyRidesRideIdEditRoute: typeof DashboardMyRidesRideIdEditRoute
+  RidesTemplatesTemplateIdEditRoute: typeof RidesTemplatesTemplateIdEditRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -207,6 +313,13 @@ declare module '@tanstack/react-router' {
       path: '/signup'
       fullPath: '/signup'
       preLoaderRoute: typeof SignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/messages': {
+      id: '/messages'
+      path: '/messages'
+      fullPath: '/messages'
+      preLoaderRoute: typeof MessagesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/login': {
@@ -237,6 +350,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rides/templates': {
+      id: '/rides/templates'
+      path: '/rides/templates'
+      fullPath: '/rides/templates'
+      preLoaderRoute: typeof RidesTemplatesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rides/search': {
       id: '/rides/search'
       path: '/rides/search'
@@ -251,11 +371,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RidesCreateRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/messages_/$threadId': {
+      id: '/messages_/$threadId'
+      path: '/messages/$threadId'
+      fullPath: '/messages/$threadId'
+      preLoaderRoute: typeof MessagesThreadIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/dashboard/my-rides': {
       id: '/dashboard/my-rides'
       path: '/dashboard/my-rides'
       fullPath: '/dashboard/my-rides'
       preLoaderRoute: typeof DashboardMyRidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard/calendar': {
+      id: '/dashboard/calendar'
+      path: '/dashboard/calendar'
+      fullPath: '/dashboard/calendar'
+      preLoaderRoute: typeof DashboardCalendarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth/signup': {
@@ -272,6 +406,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rides/templates_/new': {
+      id: '/rides/templates_/new'
+      path: '/rides/templates/new'
+      fullPath: '/rides/templates/new'
+      preLoaderRoute: typeof RidesTemplatesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/rides/$rideId/book': {
       id: '/rides/$rideId/book'
       path: '/rides/$rideId/book'
@@ -279,11 +420,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RidesRideIdBookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/cron/materialize-recurring-rides': {
+      id: '/api/cron/materialize-recurring-rides'
+      path: '/api/cron/materialize-recurring-rides'
+      fullPath: '/api/cron/materialize-recurring-rides'
+      preLoaderRoute: typeof ApiCronMaterializeRecurringRidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/cron/complete-rides': {
+      id: '/api/cron/complete-rides'
+      path: '/api/cron/complete-rides'
+      fullPath: '/api/cron/complete-rides'
+      preLoaderRoute: typeof ApiCronCompleteRidesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/auth/$': {
       id: '/api/auth/$'
       path: '/api/auth/$'
       fullPath: '/api/auth/$'
       preLoaderRoute: typeof ApiAuthSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rides/templates_/$templateId/edit': {
+      id: '/rides/templates_/$templateId/edit'
+      path: '/rides/templates/$templateId/edit'
+      fullPath: '/rides/templates/$templateId/edit'
+      preLoaderRoute: typeof RidesTemplatesTemplateIdEditRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/dashboard/my-rides_/$rideId/edit': {
@@ -301,15 +463,23 @@ const rootRouteChildren: RootRouteChildren = {
   AboutRoute: AboutRoute,
   HomeRoute: HomeRoute,
   LoginRoute: LoginRoute,
+  MessagesRoute: MessagesRoute,
   SignupRoute: SignupRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
+  DashboardCalendarRoute: DashboardCalendarRoute,
   DashboardMyRidesRoute: DashboardMyRidesRoute,
+  MessagesThreadIdRoute: MessagesThreadIdRoute,
   RidesCreateRoute: RidesCreateRoute,
   RidesSearchRoute: RidesSearchRoute,
+  RidesTemplatesRoute: RidesTemplatesRoute,
   ApiAuthSplatRoute: ApiAuthSplatRoute,
+  ApiCronCompleteRidesRoute: ApiCronCompleteRidesRoute,
+  ApiCronMaterializeRecurringRidesRoute: ApiCronMaterializeRecurringRidesRoute,
   RidesRideIdBookRoute: RidesRideIdBookRoute,
+  RidesTemplatesNewRoute: RidesTemplatesNewRoute,
   DashboardMyRidesRideIdEditRoute: DashboardMyRidesRideIdEditRoute,
+  RidesTemplatesTemplateIdEditRoute: RidesTemplatesTemplateIdEditRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
