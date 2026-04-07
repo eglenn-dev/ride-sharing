@@ -20,6 +20,7 @@
     "db:migrate": "prisma migrate dev",
     "db:studio": "prisma studio",
     "db:seed": "prisma db seed",
+    "e2e": "playwright test",
     "postinstall": "prisma generate"
   },
   "dependencies": {
