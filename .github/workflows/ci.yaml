@@ -28,6 +28,7 @@ jobs:
       - run: pnpm build
 
   e2e:
+    needs: lint-and-build
     runs-on: ubuntu-latest
     env:
       DATABASE_URL: 'postgresql://postgres:postgres@localhost:5432/ride-sharing'
