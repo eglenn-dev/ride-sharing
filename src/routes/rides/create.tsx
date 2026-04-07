@@ -11,7 +11,7 @@ const getDefaultDepartureTime = () => {
   return new Date(date.getTime() - timezoneOffsetMs).toISOString().slice(0, 16)
 }
 
-export const Route = createFileRoute('/rides/offer')({
+export const Route = createFileRoute('/rides/create')({
   beforeLoad: async () => {
     await requireAuthenticatedRoute()
   },
