@@ -1,20 +1,10 @@
 import { createServerFn } from '@tanstack/react-start'
-import { z } from 'zod'
 import { prisma } from '#/db'
 import { requireServerSession } from '#/lib/auth-session'
-
-const createRideInput = z.object({
-  origin: z.string().min(1),
-  destination: z.string().min(1),
-  departureTime: z.iso.datetime(),
-  seats: z.int().positive(),
-  price: z.number().nonnegative(),
-  type: z.enum(['SHARED', 'EXCLUSIVE']),
-  description: z.string().optional(),
-})
+import { createRideSchema } from '#/lib/schemas'
 
 export const createRide = createServerFn({ method: 'POST' })
-  .inputValidator(createRideInput)
+  .inputValidator(createRideSchema)
   .handler(async ({ data }) => {
     const session = await requireServerSession()
 
