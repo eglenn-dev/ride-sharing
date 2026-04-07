@@ -50,19 +50,6 @@ export default function Header({ initialSession }: HeaderProps = {}) {
               {link.label}
             </Link>
           ))}
-          <details className="relative">
-            <summary className="nav-link list-none cursor-pointer">
-              Demos
-            </summary>
-            <div className="absolute right-0 mt-2 min-w-56 rounded-xl border border-[var(--line)] bg-[var(--header-bg)] p-2 shadow-lg">
-              <a
-                href="/demo/better-auth"
-                className="block rounded-lg px-3 py-2 text-sm text-[var(--sea-ink-soft)] no-underline transition hover:bg-[var(--link-bg-hover)] hover:text-[var(--sea-ink)]"
-              >
-                Better Auth
-              </a>
-            </div>
-          </details>
         </div>
 
         <div className="hidden items-center gap-2 md:flex">
@@ -114,13 +101,6 @@ export default function Header({ initialSession }: HeaderProps = {}) {
                   {link.label}
                 </Link>
               ))}
-              <a
-                href="/demo/better-auth"
-                className="rounded-lg px-3 py-2 text-[var(--sea-ink)] no-underline transition hover:bg-[var(--link-bg-hover)]"
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Better Auth Demo
-              </a>
             </div>
 
             <div className="mt-2 border-t border-[var(--line)] pt-2">
