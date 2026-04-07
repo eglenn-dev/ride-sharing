@@ -22,6 +22,7 @@ import { Route as AuthSignupRouteImport } from './routes/auth/signup'
 import { Route as AuthLoginRouteImport } from './routes/auth/login'
 import { Route as RidesRideIdBookRouteImport } from './routes/rides/$rideId.book'
 import { Route as ApiAuthSplatRouteImport } from './routes/api/auth/$'
+import { Route as DashboardMyRidesRideIdEditRouteImport } from './routes/dashboard/my-rides.$rideId.edit'
 
 const SignupRoute = SignupRouteImport.update({
   id: '/signup',
@@ -88,6 +89,12 @@ const ApiAuthSplatRoute = ApiAuthSplatRouteImport.update({
   path: '/api/auth/$',
   getParentRoute: () => rootRouteImport,
 } as any)
+const DashboardMyRidesRideIdEditRoute =
+  DashboardMyRidesRideIdEditRouteImport.update({
+    id: '/$rideId/edit',
+    path: '/$rideId/edit',
+    getParentRoute: () => DashboardMyRidesRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -97,12 +104,13 @@ export interface FileRoutesByFullPath {
   '/signup': typeof SignupRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
-  '/dashboard/my-rides': typeof DashboardMyRidesRoute
+  '/dashboard/my-rides': typeof DashboardMyRidesRouteWithChildren
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/rides/create': typeof RidesCreateRoute
   '/rides/search': typeof RidesSearchRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/rides/$rideId/book': typeof RidesRideIdBookRoute
+  '/dashboard/my-rides/$rideId/edit': typeof DashboardMyRidesRideIdEditRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -112,12 +120,13 @@ export interface FileRoutesByTo {
   '/signup': typeof SignupRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
-  '/dashboard/my-rides': typeof DashboardMyRidesRoute
+  '/dashboard/my-rides': typeof DashboardMyRidesRouteWithChildren
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/rides/create': typeof RidesCreateRoute
   '/rides/search': typeof RidesSearchRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/rides/$rideId/book': typeof RidesRideIdBookRoute
+  '/dashboard/my-rides/$rideId/edit': typeof DashboardMyRidesRideIdEditRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -128,12 +137,13 @@ export interface FileRoutesById {
   '/signup': typeof SignupRoute
   '/auth/login': typeof AuthLoginRoute
   '/auth/signup': typeof AuthSignupRoute
-  '/dashboard/my-rides': typeof DashboardMyRidesRoute
+  '/dashboard/my-rides': typeof DashboardMyRidesRouteWithChildren
   '/demo/better-auth': typeof DemoBetterAuthRoute
   '/rides/create': typeof RidesCreateRoute
   '/rides/search': typeof RidesSearchRoute
   '/api/auth/$': typeof ApiAuthSplatRoute
   '/rides/$rideId/book': typeof RidesRideIdBookRoute
+  '/dashboard/my-rides/$rideId/edit': typeof DashboardMyRidesRideIdEditRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +161,7 @@ export interface FileRouteTypes {
     | '/rides/search'
     | '/api/auth/$'
     | '/rides/$rideId/book'
+    | '/dashboard/my-rides/$rideId/edit'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +177,7 @@ export interface FileRouteTypes {
     | '/rides/search'
     | '/api/auth/$'
     | '/rides/$rideId/book'
+    | '/dashboard/my-rides/$rideId/edit'
   id:
     | '__root__'
     | '/'
@@ -181,6 +193,7 @@ export interface FileRouteTypes {
     | '/rides/search'
     | '/api/auth/$'
     | '/rides/$rideId/book'
+    | '/dashboard/my-rides/$rideId/edit'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -191,7 +204,7 @@ export interface RootRouteChildren {
   SignupRoute: typeof SignupRoute
   AuthLoginRoute: typeof AuthLoginRoute
   AuthSignupRoute: typeof AuthSignupRoute
-  DashboardMyRidesRoute: typeof DashboardMyRidesRoute
+  DashboardMyRidesRoute: typeof DashboardMyRidesRouteWithChildren
   DemoBetterAuthRoute: typeof DemoBetterAuthRoute
   RidesCreateRoute: typeof RidesCreateRoute
   RidesSearchRoute: typeof RidesSearchRoute
@@ -292,8 +305,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiAuthSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard/my-rides/$rideId/edit': {
+      id: '/dashboard/my-rides/$rideId/edit'
+      path: '/$rideId/edit'
+      fullPath: '/dashboard/my-rides/$rideId/edit'
+      preLoaderRoute: typeof DashboardMyRidesRideIdEditRouteImport
+      parentRoute: typeof DashboardMyRidesRoute
+    }
   }
 }
+
+interface DashboardMyRidesRouteChildren {
+  DashboardMyRidesRideIdEditRoute: typeof DashboardMyRidesRideIdEditRoute
+}
+
+const DashboardMyRidesRouteChildren: DashboardMyRidesRouteChildren = {
+  DashboardMyRidesRideIdEditRoute: DashboardMyRidesRideIdEditRoute,
+}
+
+const DashboardMyRidesRouteWithChildren =
+  DashboardMyRidesRoute._addFileChildren(DashboardMyRidesRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
@@ -303,7 +334,7 @@ const rootRouteChildren: RootRouteChildren = {
   SignupRoute: SignupRoute,
   AuthLoginRoute: AuthLoginRoute,
   AuthSignupRoute: AuthSignupRoute,
-  DashboardMyRidesRoute: DashboardMyRidesRoute,
+  DashboardMyRidesRoute: DashboardMyRidesRouteWithChildren,
   DemoBetterAuthRoute: DemoBetterAuthRoute,
   RidesCreateRoute: RidesCreateRoute,
   RidesSearchRoute: RidesSearchRoute,
