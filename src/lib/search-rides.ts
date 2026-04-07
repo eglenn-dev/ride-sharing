@@ -12,11 +12,12 @@ export const searchRides = createServerFn({ method: 'GET' })
     }) => data,
   )
   .handler(async ({ data }) => {
-    await requireServerSession()
+    const session = await requireServerSession()
 
     const where: {
       status: 'ACTIVE'
       availableSeats: { gt: number }
+      driverId: { not: string }
       origin?: { contains: string; mode: 'insensitive' }
       destination?: { contains: string; mode: 'insensitive' }
       departureTime?: { gte: Date; lt: Date }
@@ -24,6 +25,7 @@ export const searchRides = createServerFn({ method: 'GET' })
     } = {
       status: 'ACTIVE',
       availableSeats: { gt: 0 },
+      driverId: { not: session.user.id },
     }
 
     if (data.origin) {

@@ -29,7 +29,7 @@ export default function BetterAuthHeader() {
             await router.navigate({
               to: '/',
               search: {
-                loggedOut: '1',
+                loggedOut: true,
                 loggedOutName: session.user.name,
               },
             })

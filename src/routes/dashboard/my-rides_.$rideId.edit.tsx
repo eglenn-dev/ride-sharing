@@ -3,7 +3,7 @@ import { useState } from 'react'
 import { requireAuthenticatedRoute } from '#/lib/auth-guard'
 import { getEditableRide, updateRide } from '#/lib/rides'
 
-export const Route = createFileRoute('/dashboard/my-rides/$rideId/edit')({
+export const Route = createFileRoute('/dashboard/my-rides_/$rideId/edit')({
   beforeLoad: async () => {
     await requireAuthenticatedRoute()
   },

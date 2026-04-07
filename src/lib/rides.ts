@@ -1,4 +1,5 @@
 import { createServerFn } from '@tanstack/react-start'
+import { z } from 'zod'
 import { prisma } from '#/db'
 import { requireServerSession } from '#/lib/auth-session'
 import { createRideSchema } from '#/lib/schemas'
@@ -172,7 +173,9 @@ export const getUserRides = createServerFn({ method: 'GET' }).handler(
       where: { driverId: user.id },
       orderBy: { departureTime: 'desc' },
       include: {
-        _count: { select: { bookings: true } },
+        _count: {
+          select: { bookings: { where: { status: 'CONFIRMED' } } },
+        },
       },
     })
   },

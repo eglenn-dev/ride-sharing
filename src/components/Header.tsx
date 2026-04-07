@@ -5,8 +5,15 @@ import BetterAuthHeader from '../integrations/better-auth/header-user.tsx'
 import NotificationBell from './NotificationBell'
 import ThemeToggle from './ThemeToggle'
 
-export default function Header() {
-  const { data: session } = authClient.useSession()
+type HeaderSession = { user: { id: string } } | null | undefined
+
+type HeaderProps = {
+  initialSession?: HeaderSession
+}
+
+export default function Header({ initialSession }: HeaderProps = {}) {
+  const { data: liveSession } = authClient.useSession()
+  const session = liveSession ?? initialSession ?? null
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
 
   const navLinks = [

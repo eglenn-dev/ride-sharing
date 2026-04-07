@@ -59,6 +59,7 @@ function AuthRegisterPage() {
             <input
               id="name"
               type="text"
+              autoComplete="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               className="flex h-9 w-full rounded-lg border border-[var(--line)] bg-transparent px-3 text-sm text-[var(--sea-ink)] focus:outline-none focus:border-[var(--lagoon-deep)] disabled:cursor-not-allowed disabled:opacity-50"
@@ -76,6 +77,7 @@ function AuthRegisterPage() {
             <input
               id="email"
               type="email"
+              autoComplete="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               className="flex h-9 w-full rounded-lg border border-[var(--line)] bg-transparent px-3 text-sm text-[var(--sea-ink)] focus:outline-none focus:border-[var(--lagoon-deep)] disabled:cursor-not-allowed disabled:opacity-50"
@@ -93,6 +95,7 @@ function AuthRegisterPage() {
             <input
               id="password"
               type="password"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               className="flex h-9 w-full rounded-lg border border-[var(--line)] bg-transparent px-3 text-sm text-[var(--sea-ink)] focus:outline-none focus:border-[var(--lagoon-deep)] disabled:cursor-not-allowed disabled:opacity-50"

@@ -96,7 +96,6 @@ function OfferRidePage() {
               value={origin}
               onChange={(event) => setOrigin(event.target.value)}
               placeholder="Salt Lake City"
-              required
               disabled={isSubmitting}
               className="h-10 rounded-xl border border-[var(--line)] bg-white/60 px-3 text-sm text-[var(--sea-ink)] outline-none transition focus:border-[rgba(50,143,151,0.5)] disabled:cursor-not-allowed disabled:bg-white/40"
             />
@@ -109,7 +108,6 @@ function OfferRidePage() {
               value={destination}
               onChange={(event) => setDestination(event.target.value)}
               placeholder="Provo"
-              required
               disabled={isSubmitting}
               className="h-10 rounded-xl border border-[var(--line)] bg-white/60 px-3 text-sm text-[var(--sea-ink)] outline-none transition focus:border-[rgba(50,143,151,0.5)] disabled:cursor-not-allowed disabled:bg-white/40"
             />

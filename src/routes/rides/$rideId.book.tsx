@@ -46,7 +46,7 @@ function RideBookingPage() {
       await router.navigate({
         to: '/home',
         search: {
-          bookingCreated: '1',
+          bookingCreated: true,
           bookedRide: `${ride.origin} to ${ride.destination}`,
         },
       })

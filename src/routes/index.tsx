@@ -3,7 +3,7 @@ import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
 
 export const Route = createFileRoute('/')({
     validateSearch: (search: Record<string, unknown>) => ({
-        loggedOut: search.loggedOut === '1' ? '1' : undefined,
+        loggedOut: search.loggedOut === true ? true : undefined,
         loggedOutName:
             typeof search.loggedOutName === 'string' && search.loggedOutName.trim().length > 0
                 ? search.loggedOutName.trim().slice(0, 50)
@@ -22,7 +22,7 @@ function App() {
             <section className="hero-commuter hero-full-bleed rise-in relative overflow-hidden">
                 <div className="pointer-events-none absolute -left-20 -top-24 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(79,184,178,0.32),transparent_66%)]" />
                 <div className="pointer-events-none absolute -bottom-20 -right-20 h-56 w-56 rounded-full bg-[radial-gradient(circle,rgba(47,106,74,0.18),transparent_66%)]" />
-                {loggedOut === '1' && (
+                {loggedOut === true && (
                     <div className="pointer-events-none absolute inset-x-0 top-4 z-20">
                         <div className="page-wrap px-6 sm:px-10">
                             <div className="pointer-events-auto max-w-2xl rounded-xl border border-[rgba(230,255,250,0.42)] bg-[rgba(7,34,41,0.62)] p-4 text-white shadow-[0_14px_34px_rgba(3,11,16,0.36)] backdrop-blur-md">

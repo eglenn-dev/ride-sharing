@@ -92,7 +92,9 @@ export default function BookingCard({
         </div>
         <div className="flex items-center justify-between gap-3">
           <dt className="text-[var(--sea-ink-soft)]">Total</dt>
-          <dd className="m-0 font-medium text-[var(--sea-ink)]">
+          <dd
+            className={`m-0 font-medium ${booking.status === 'CANCELLED' ? 'text-[var(--sea-ink-soft)] line-through' : 'text-[var(--sea-ink)]'}`}
+          >
             ${(booking.ride.price * (isEditing ? editingSeats : booking.seatsBooked)).toFixed(2)}
           </dd>
         </div>
@@ -141,6 +143,7 @@ export default function BookingCard({
             isEditing
           }
           onClick={() => {
+            if (!window.confirm('Cancel this booking? This cannot be undone.')) return
             void onCancelBooking(booking.id)
           }}
           className="w-full rounded-full border border-[rgba(183,63,48,0.35)] bg-[rgba(183,63,48,0.08)] px-4 py-2 text-sm font-semibold text-[rgb(138,44,35)] transition hover:bg-[rgba(183,63,48,0.14)] disabled:cursor-not-allowed disabled:border-[rgba(23,58,64,0.18)] disabled:bg-white/50 disabled:text-[var(--sea-ink-soft)]"

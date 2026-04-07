@@ -16,7 +16,7 @@ const DATE_TIME_FORMATTER = new Intl.DateTimeFormat(undefined, {
 
 export const Route = createFileRoute('/home')({
     validateSearch: (search: Record<string, unknown>) => ({
-        bookingCreated: search.bookingCreated === '1' ? '1' : undefined,
+        bookingCreated: search.bookingCreated === true ? true : undefined,
         bookedRide:
             typeof search.bookedRide === 'string' && search.bookedRide.trim().length > 0
                 ? search.bookedRide.trim().slice(0, 80)
@@ -183,7 +183,7 @@ function HomePage() {
         await router.navigate({
             to: '/',
             search: {
-                loggedOut: '1',
+                loggedOut: true,
                 loggedOutName: session.user.name,
             },
         })
@@ -235,7 +235,7 @@ function HomePage() {
 
     return (
         <main className="page-wrap px-4 pb-8 pt-14">
-            {bookingCreated === '1' && (
+            {bookingCreated === true && (
                 <section className="island-shell mb-6 rounded-xl border border-[rgba(50,143,151,0.25)] bg-[rgba(79,184,178,0.12)] p-4">
                     <div className="flex items-start justify-between gap-3">
                         <p className="m-0 text-sm text-[var(--sea-ink)]">
@@ -386,7 +386,7 @@ function HomePage() {
                         <div>
                             <dt className="text-[var(--sea-ink-soft)]">Offered</dt>
                             <dd className="m-0 text-lg font-semibold text-[var(--sea-ink)]">
-                                {rides.length}
+                                {activeRides.length}
                             </dd>
                         </div>
                         <div>
