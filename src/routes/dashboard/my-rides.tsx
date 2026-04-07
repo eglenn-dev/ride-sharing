@@ -13,12 +13,12 @@ export const Route = createFileRoute('/dashboard/my-rides')({
   component: MyRidesPage,
 })
 
-const dateFormatter = new Intl.DateTimeFormat(undefined, {
+const DATE_TIME_FORMATTER = new Intl.DateTimeFormat(undefined, {
   dateStyle: 'medium',
   timeStyle: 'short',
 })
 
-const priceFormatter = new Intl.NumberFormat(undefined, {
+const PRICE_FORMATTER = new Intl.NumberFormat(undefined, {
   style: 'currency',
   currency: 'USD',
 })
@@ -75,14 +75,14 @@ function MyRidesPage() {
                       {ride.origin} → {ride.destination}
                     </p>
                     <p className="text-sm text-[var(--sea-ink-soft)]">
-                      {dateFormatter.format(new Date(ride.departureTime))}
+                      {DATE_TIME_FORMATTER.format(new Date(ride.departureTime))}
                     </p>
                   </div>
                   <div className="text-sm text-[var(--sea-ink-soft)] sm:text-right">
                     <p>
                       {ride.availableSeats}/{ride.seats} seats available
                     </p>
-                    <p>{priceFormatter.format(ride.price)} per seat</p>
+                    <p>{PRICE_FORMATTER.format(ride.price)} per seat</p>
                     <p className="uppercase tracking-wide">{ride.status}</p>
                   </div>
                 </div>
