@@ -145,7 +145,7 @@ export const getPendingReviewsForCurrentUser = createServerFn({
       : [ride.driver]
 
     for (const candidate of candidates) {
-      if (!candidate || candidate.id === user.id) continue
+      if (candidate.id === user.id) continue
       if (reviewedSubjectIds.has(candidate.id)) continue
       pending.push({
         rideId: ride.id,

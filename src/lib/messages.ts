@@ -90,7 +90,8 @@ export const listMyThreads = createServerFn({ method: 'GET' }).handler(
       const counterparty = isDriver
         ? thread.booking.rider
         : thread.booking.ride.driver
-      const lastMessage = thread.messages[0] ?? null
+      const lastMessage =
+        thread.messages.length > 0 ? thread.messages[0] : null
 
       return {
         id: thread.id,
@@ -99,9 +100,9 @@ export const listMyThreads = createServerFn({ method: 'GET' }).handler(
         counterparty,
         rideLabel: `${thread.booking.ride.origin} → ${thread.booking.ride.destination}`,
         departureTime: thread.booking.ride.departureTime,
-        lastMessagePreview: lastMessage?.body ?? null,
-        lastMessageAt: lastMessage?.createdAt ?? null,
-        lastMessageAuthorId: lastMessage?.authorId ?? null,
+        lastMessagePreview: lastMessage ? lastMessage.body : null,
+        lastMessageAt: lastMessage ? lastMessage.createdAt : null,
+        lastMessageAuthorId: lastMessage ? lastMessage.authorId : null,
       }
     })
   },
